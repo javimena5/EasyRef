@@ -41,10 +41,16 @@
                 android:text="ApellidosJugador" />
         </LinearLayout>
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:gravity="right"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/expulsado"
+                android:layout_width="10dp"
+                android:layout_height="16dp"
+                android:background="#ffffff"
+                android:orientation="horizontal"/>
             <TextView
                 android:id="@+id/dorsalJugador"
                 android:layout_width="50dp"
