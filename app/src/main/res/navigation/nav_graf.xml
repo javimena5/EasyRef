@@ -121,5 +121,9 @@
     <fragment
         android:id="@+id/infoPartidoLayout"
         android:name="com.example.easyref.View.InfoPartidoLayout"
-        android:label="InfoPartidoLayout" />
+        android:label="InfoPartidoLayout" >
+        <action
+            android:id="@+id/action_infoPartidoLayout_to_seleccionModo"
+            app:destination="@id/seleccionModo" />
+    </fragment>
 </navigation>

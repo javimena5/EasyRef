@@ -31,19 +31,19 @@ interface JugadorDao {
     @Query("SELECT dorsal FROM jugadores WHERE id_equipo=(:equipoId) ORDER BY dorsal ASC")
     suspend fun getDorsales(equipoId: Int): List<Int>
 
-    @Query("SELECT * FROM jugadores WHERE id_equipo=(:equipoId) AND es_titular=1")
+    @Query("SELECT * FROM jugadores WHERE id_equipo=(:equipoId) AND es_titular=1 AND expulsado=0")
     suspend fun getTitulares(equipoId: Int): List<JugadorEntity>
 
-    @Query("SELECT * FROM jugadores WHERE id_equipo=(:equipoId) AND es_titular=0")
+    @Query("SELECT * FROM jugadores WHERE id_equipo=(:equipoId) AND es_titular=0 AND expulsado=0")
     suspend fun getSuplentes(equipoId: Int): List<JugadorEntity>
 
-    @Query("SELECT id_jugador FROM jugadores WHERE (id_equipo=(:equipoId) AND es_titular=1) ORDER BY dorsal ASC")
+    @Query("SELECT id_jugador FROM jugadores WHERE (id_equipo=(:equipoId) AND es_titular=1 AND expulsado=0) ORDER BY dorsal ASC")
     suspend fun getIdTitulares(equipoId: Int): List<Int>
 
-    @Query("SELECT id_jugador FROM jugadores WHERE (id_equipo=(:equipoId) AND es_titular=0) ORDER BY dorsal ASC")
+    @Query("SELECT id_jugador FROM jugadores WHERE (id_equipo=(:equipoId) AND es_titular=0 AND expulsado=0) ORDER BY dorsal ASC")
     suspend fun getIdSuplentes(equipoId: Int): List<Int>
 
-    @Query("SELECT id_jugador FROM jugadores WHERE id_equipo=(:equipoId) ORDER BY dorsal ASC")
+    @Query("SELECT id_jugador FROM jugadores WHERE (id_equipo=(:equipoId) AND expulsado=0) ORDER BY dorsal ASC")
     suspend fun getIdJugadores(equipoId: Int): List<Int>
 
 

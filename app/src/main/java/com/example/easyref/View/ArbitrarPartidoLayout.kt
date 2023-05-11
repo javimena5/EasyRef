@@ -30,14 +30,14 @@ class ArbitrarPartidoLayout : Fragment() {
     var listaJugadoresLocales: MutableList<JugadorEntity> = mutableListOf()
     var listaJugadoresVisitantes: MutableList<JugadorEntity> = mutableListOf()
     var listaJugadoresTitularesLocal: MutableList<JugadorEntity> = mutableListOf()
-    var listaJugadoresTitularesVisitante: MutableList<JugadorEntity> = mutableListOf()///////////////////////////////////
+    var listaJugadoresTitularesVisitante: MutableList<JugadorEntity> = mutableListOf()
     var listaJugadoresSuplentesLocal: MutableList<JugadorEntity> = mutableListOf()
     var listaJugadoresSuplentesVisitante: MutableList<JugadorEntity> = mutableListOf()
-    lateinit var listaJugadoresSuplentes: MutableList<Int>
     lateinit var listaJugadoresAmarilla: MutableList<JugadorEntity>
     lateinit var listaJugadoresRoja: MutableList<JugadorEntity>
     var jugadorSale: JugadorEntity? = null
     var jugadorEntra: JugadorEntity? = null
+    var seleccionado: JugadorEntity? = null
     private val datosViewModel : PasarDatosViewModel by activityViewModels()
     var infoPartido:String = ""
     var delay:Long = 5
@@ -51,7 +51,6 @@ class ArbitrarPartidoLayout : Fragment() {
 
     var minutos = 0
     var minutosParar = 0
-    //var minutosSegunda = datosViewModel.getDuracionParte.value!!
 
     var partidoEmpezado = false
     var pausaReglamentaria = false
@@ -405,16 +404,16 @@ class ArbitrarPartidoLayout : Fragment() {
             when(suceso){
                 "gol" -> {
                     golesLocal++
-                    dialogBuilder = createDorsalDialogo(minutosSegunda,"LOCAL",suceso)
                     jugadoresMostrar = listaJugadoresTitularesLocal
+                    dialogBuilder = createDorsalDialogo(minutosSegunda,"LOCAL",suceso)
                 }
                 "amarilla","roja" -> {
-                    dialogBuilder = createDorsalDialogo(minutosSegunda,"LOCAL",suceso)
                     jugadoresMostrar = listaJugadoresLocales
+                    dialogBuilder = createDorsalDialogo(minutosSegunda,"LOCAL",suceso)
                 }
                 "cambio" -> {
-                    dialogBuilder = createCambioDialogo(minutosSegunda,"LOCAL",suceso)
                     jugadoresMostrar = listaJugadoresTitularesLocal
+                    dialogBuilder = createCambioSaleDialogo(minutosSegunda,"LOCAL")
                 }
             }
             cargarAdapter("LOCAL",minutosSegunda,suceso)
@@ -428,17 +427,16 @@ class ArbitrarPartidoLayout : Fragment() {
             when(suceso){
                 "gol" -> {
                     golesVisitante++
-                    dialogBuilder = createDorsalDialogo(minutosSegunda,"VISITANTE",suceso)
                     jugadoresMostrar = listaJugadoresTitularesVisitante
+                    dialogBuilder = createDorsalDialogo(minutosSegunda,"VISITANTE",suceso)
                 }
                 "amarilla","roja" -> {
-                    dialogBuilder = createDorsalDialogo(minutosSegunda,"VISITANTE",suceso)
                     jugadoresMostrar = listaJugadoresVisitantes
+                    dialogBuilder = createDorsalDialogo(minutosSegunda,"VISITANTE",suceso)
                 }
                 "cambio" -> {
-                    dialogBuilder = createCambioDialogo(minutosSegunda,"VISITANTE",suceso)
-                    jugadoresMostrar = mutableListOf()
                     jugadoresMostrar = listaJugadoresTitularesVisitante
+                    dialogBuilder = createCambioSaleDialogo(minutosSegunda,"VISITANTE")
                 }
             }
             cargarAdapter("VISITANTE",minutosSegunda,suceso)
@@ -457,7 +455,7 @@ class ArbitrarPartidoLayout : Fragment() {
         return builder
     }
 
-    fun createCambioDialogo(minutosSegunda: Int,tipo:String,suceso:String) : MaterialAlertDialogBuilder {
+    fun createCambioSaleDialogo(minutosSegunda: Int,tipo:String) : MaterialAlertDialogBuilder {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val view = this.layoutInflater.inflate(R.layout.cambio_sale_dialog, null)
         builder.setView(view)
@@ -465,7 +463,7 @@ class ArbitrarPartidoLayout : Fragment() {
         return builder
     }
 
-    fun createCambioSaleDialogo(minutosSegunda: Int,tipo:String) : MaterialAlertDialogBuilder {
+    fun createCambioDialogo(minutosSegunda: Int,tipo:String) : MaterialAlertDialogBuilder {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val view = this.layoutInflater.inflate(R.layout.cambio_suplentes_dialog, null)
         builder.setView(view)
@@ -477,78 +475,105 @@ class ArbitrarPartidoLayout : Fragment() {
         adaptador = RecyclerAdapterArbitrarJugadores(jugadoresMostrar) // la lista esta vacia pero no sale
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
-                var seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
+                seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
                 if(primeraParte) {
                     when(suceso){
                         "gol"-> {
-                            infoPartido += "Gol_: " + seleccionado.nombreJugador + " " + seleccionado.apellidosJugador + " (" +
+                            infoPartido += "Gol_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutos.toString().padStart(2, '0') + ":" + segundos.toString()
                                 .padStart(2, '0') + ")|"
                         }
                         "amarilla"->  {
                             if(listaJugadoresAmarilla.contains(seleccionado)){
-                                seleccionado.expulsado = 1
-                                listaJugadoresRoja.add(seleccionado)
+                                listaJugadoresRoja.add(seleccionado!!)
+                                listaJugadoresLocales.remove(seleccionado)
+                                listaJugadoresVisitantes.remove(seleccionado)
+                                listaJugadoresTitularesLocal.remove(seleccionado)
+                                listaJugadoresTitularesVisitante.remove(seleccionado)
+                                listaJugadoresSuplentesLocal.remove(seleccionado)
+                                listaJugadoresSuplentesVisitante.remove(seleccionado)
+                                jugadoresMostrar.remove(seleccionado)
+                                seleccionado!!.expulsado = 1
                             }
                             else
-                                listaJugadoresAmarilla.add(seleccionado)
-                            infoPartido += "Amarilla_: " + seleccionado.nombreJugador + " " + seleccionado.apellidosJugador + " (" +
+                                listaJugadoresAmarilla.add(seleccionado!!)
+                            infoPartido += "Amarilla_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutos.toString().padStart(2, '0') + ":" + segundos.toString()
                                 .padStart(2, '0') + ")|"
                         }
                         "roja"->  {
-                            seleccionado.expulsado = 1
-                            listaJugadoresRoja.add(seleccionado)
-                            infoPartido += "Roja_: " + seleccionado.nombreJugador + " " + seleccionado.apellidosJugador + " (" +
+                            listaJugadoresRoja.add(seleccionado!!)
+                            listaJugadoresLocales.remove(seleccionado)
+                            listaJugadoresVisitantes.remove(seleccionado)
+                            listaJugadoresTitularesLocal.remove(seleccionado)
+                            listaJugadoresTitularesVisitante.remove(seleccionado)
+                            listaJugadoresSuplentesLocal.remove(seleccionado)
+                            listaJugadoresSuplentesVisitante.remove(seleccionado)
+                            jugadoresMostrar.remove(seleccionado)
+                            seleccionado!!.expulsado = 1
+                            infoPartido += "Roja_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutos.toString().padStart(2, '0') + ":" + segundos.toString()
                                 .padStart(2, '0') + ")|"
                         }
                         "cambio"->  {
-                            var seleccionado =
+                            seleccionado =
                                 jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
                             jugadorSale = seleccionado
-                            dialogBuilder = createCambioSaleDialogo(minutosSegunda, tipo)
-                            cargarAdapterSuplentes(tipo, minutosSegunda)
+                            dialogBuilder = createCambioDialogo(minutosSegunda, tipo)
                         }
                     }
                 }else {
                     when (suceso){
                         "gol"->{
-                            infoPartido += "Gol_: " + seleccionado.nombreJugador + " " + seleccionado.apellidosJugador + " (" +
+                            infoPartido += "Gol_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutosSegunda.toString()
                                         .padStart(2, '0') + ":" + segundosSegunda.toString()
                                 .padStart(2, '0') + ")|"
                         }
                         "amarilla"-> {
                             if(listaJugadoresAmarilla.contains(seleccionado)){
-                                seleccionado.expulsado = 1
-                                listaJugadoresRoja.add(seleccionado)
+                                listaJugadoresRoja.add(seleccionado!!)
+                                listaJugadoresLocales.remove(seleccionado)
+                                listaJugadoresVisitantes.remove(seleccionado)
+                                listaJugadoresTitularesLocal.remove(seleccionado)
+                                listaJugadoresTitularesVisitante.remove(seleccionado)
+                                listaJugadoresSuplentesLocal.remove(seleccionado)
+                                listaJugadoresSuplentesVisitante.remove(seleccionado)
+                                jugadoresMostrar.remove(seleccionado)
+                                seleccionado!!.expulsado = 1
                             }
                             else
-                                listaJugadoresAmarilla.add(seleccionado)
-                            infoPartido += "Amarilla_: " + seleccionado.nombreJugador + " " + seleccionado.apellidosJugador + " (" +
+                                listaJugadoresAmarilla.add(seleccionado!!)
+                            infoPartido += "Amarilla_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutosSegunda.toString()
                                         .padStart(2, '0') + ":" + segundosSegunda.toString()
                                 .padStart(2, '0') + ")|"
                         }
                         "roja"-> {
-                            seleccionado.expulsado = 1
-                            listaJugadoresRoja.add(seleccionado)
-                            infoPartido += "Roja_: " + seleccionado.nombreJugador + " " + seleccionado.apellidosJugador + " (" +
+                            listaJugadoresRoja.add(seleccionado!!)
+                            listaJugadoresLocales.remove(seleccionado)
+                            listaJugadoresVisitantes.remove(seleccionado)
+                            listaJugadoresTitularesLocal.remove(seleccionado)
+                            listaJugadoresTitularesVisitante.remove(seleccionado)
+                            listaJugadoresSuplentesLocal.remove(seleccionado)
+                            listaJugadoresSuplentesVisitante.remove(seleccionado)
+                            jugadoresMostrar.remove(seleccionado)
+                            seleccionado!!.expulsado = 1
+                            infoPartido += "Roja_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutosSegunda.toString()
                                         .padStart(2, '0') + ":" + segundosSegunda.toString()
                                 .padStart(2, '0') + ")|"
                         }
                         "cambio"-> {
-                            var seleccionado =
+                            seleccionado =
                                 jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
                             jugadorSale = seleccionado
-                            dialogBuilder = createCambioDialogo(minutosSegunda, tipo, suceso)
+                            dialogBuilder = createCambioDialogo(minutosSegunda, tipo)
                         }
                     }
                 }
                 CoroutineScope(Dispatchers.IO).launch {
-                    EasyRefController.updateJugador(seleccionado)
+                    EasyRefController.updateJugador(seleccionado!!)
                 }
                 dialog?.dismiss()
                 if(suceso.equals("cambio")){
@@ -557,6 +582,7 @@ class ArbitrarPartidoLayout : Fragment() {
                 }
             }
         })
+        adaptador.notifyDataSetChanged()
         recycler.adapter = adaptador
         recycler.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
     }
@@ -571,7 +597,7 @@ class ArbitrarPartidoLayout : Fragment() {
         adaptador = RecyclerAdapterArbitrarJugadores(jugadoresMostrar)
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
-                var seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
+                seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
                 jugadorEntra = seleccionado
                 if(primeraParte){
                     infoPartido += "Cambio_: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
@@ -602,6 +628,7 @@ class ArbitrarPartidoLayout : Fragment() {
                 dialog?.dismiss()
             }
         })
+        adaptador.notifyDataSetChanged()
         recycler.adapter = this.adaptador
         recycler.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
     }
