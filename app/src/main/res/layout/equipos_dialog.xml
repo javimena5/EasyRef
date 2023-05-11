@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/selectorEquipos"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <Button
+        android:id="@+id/local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Local"
+        android:backgroundTint="#0000CC"
+        android:width="120dp"
+        android:height="120dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_margin="5dp"></Button>
+    <Button
+        android:id="@+id/visitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visitante"
+        android:backgroundTint="#AA0000"
+        android:width="120dp"
+        android:height="120dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_margin="5dp"></Button>
+</LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graf"
+    app:startDestination="@id/inicioFragment">
+
+    <fragment
+        android:id="@+id/inicioFragment"
+        android:name="com.example.easyref.View.InicioFragment"
+        android:label="InicioFragment" >
+        <action
+            android:id="@+id/action_inicioFragment_to_modoVarFragment"
+            app:destination="@id/modoVarFragment" />
+        <action
+            android:id="@+id/action_inicioFragment_to_listaArbitrosFragment"
+            app:destination="@id/listaArbitrosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/datosArbitroFragment"
+        android:name="com.example.easyref.View.DatosArbitroFragment"
+        android:label="DatosArbitroFragment" >
+        <action
+            android:id="@+id/action_datosArbitroFragment_to_listaArbitrosFragment"
+            app:destination="@id/listaArbitrosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modoVarFragment"
+        android:name="com.example.easyref.View.ModoVarFragment"
+        android:label="ModoVarFragment" >
+        <action
+            android:id="@+id/action_modoVarFragment_to_listaArbitrosFragment"
+            app:destination="@id/listaArbitrosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaArbitrosFragment"
+        android:name="com.example.easyref.View.ListaArbitrosFragment"
+        android:label="ListaArbitrosFragment" >
+        <action
+            android:id="@+id/action_listaArbitrosFragment_to_datosArbitroFragment"
+            app:destination="@id/datosArbitroFragment" />
+        <action
+            android:id="@+id/action_listaArbitrosFragment_to_seleccionModo"
+            app:destination="@id/seleccionModo" />
+    </fragment>
+    <fragment
+        android:id="@+id/seleccionModo"
+        android:name="com.example.easyref.View.SeleccionModo"
+        android:label="SeleccionModo" >
+        <action
+            android:id="@+id/action_seleccionModo_to_seleccionTipoF7"
+            app:destination="@id/seleccionTipoF7" />
+        <action
+            android:id="@+id/action_seleccionModo_to_seleccionEquiposFragment"
+            app:destination="@id/seleccionEquiposFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/seleccionTipoF7"
+        android:name="com.example.easyref.View.SeleccionTipoF7"
+        android:label="SeleccionTipoF7" >
+        <action
+            android:id="@+id/action_seleccionTipoF7_to_seleccionEquiposFragment"
+            app:destination="@id/seleccionEquiposFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaEquiposFragment"
+        android:name="com.example.easyref.View.ListaEquiposFragment"
+        android:label="ListaEquiposFragment" >
+        <action
+            android:id="@+id/action_listaEquiposFragment_to_datosEquipoFragment"
+            app:destination="@id/datosEquipoFragment" />
+        <action
+            android:id="@+id/action_listaEquiposFragment_to_seleccionEquiposFragment"
+            app:destination="@id/seleccionEquiposFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/datosEquipoFragment"
+        android:name="com.example.easyref.View.DatosEquipoFragment"
+        android:label="DatosEquipoFragment" >
+        <action
+            android:id="@+id/action_datosEquipoFragment_to_listaEquiposFragment"
+            app:destination="@id/listaEquiposFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/seleccionEquiposFragment"
+        android:name="com.example.easyref.View.SeleccionEquiposFragment"
+        android:label="SeleccionEquiposFragment" >
+        <action
+            android:id="@+id/action_seleccionEquiposFragment_to_listaEquiposFragment"
+            app:destination="@id/listaEquiposFragment" />
+        <action
+            android:id="@+id/action_seleccionEquiposFragment_to_seleccionJugadoresFragment"
+            app:destination="@id/seleccionJugadoresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/seleccionJugadoresFragment"
+        android:name="com.example.easyref.View.SeleccionJugadoresFragment"
+        android:label="SeleccionJugadoresFragment" >
+        <action
+            android:id="@+id/action_seleccionJugadoresFragment_to_datosJugadorFragment"
+            app:destination="@id/datosJugadorFragment" />
+        <action
+            android:id="@+id/action_seleccionJugadoresFragment_to_arbitrarPartidoLayout"
+            app:destination="@id/arbitrarPartidoLayout" />
+    </fragment>
+    <fragment
+        android:id="@+id/datosJugadorFragment"
+        android:name="com.example.easyref.View.DatosJugadorFragment"
+        android:label="DatosJugadorFragment" >
+        <action
+            android:id="@+id/action_datosJugadorFragment_to_seleccionJugadoresFragment"
+            app:destination="@id/seleccionJugadoresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/arbitrarPartidoLayout"
+        android:name="com.example.easyref.View.ArbitrarPartidoLayout"
+        android:label="ArbitrarPartidoLayout" >
+        <action
+            android:id="@+id/action_arbitrarPartidoLayout_to_infoPartidoLayout"
+            app:destination="@id/infoPartidoLayout" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoPartidoLayout"
+        android:name="com.example.easyref.View.InfoPartidoLayout"
+        android:label="InfoPartidoLayout" />
+</navigation>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:id="@+id/futbol7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NORMAL"
+            android:layout_margin="10dp"/>
+        <Button
+            android:id="@+id/kingsleague"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KINGS LEAGUE"
+            android:backgroundTint="#F18E0A"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+</LinearLayout>
