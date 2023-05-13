@@ -14,6 +14,7 @@ class PasarDatosViewModel : ViewModel() {
     private var numeroJugadores = MutableLiveData<Int>()
     private var duracionParte = MutableLiveData<Int>()
     private var infoPartido = MutableLiveData<String>()
+    private var infoSucesos = MutableLiveData<String>()
 
 
     private var listaIdTitularesLocales = MutableLiveData<List<JugadorEntity>>()
@@ -71,6 +72,10 @@ class PasarDatosViewModel : ViewModel() {
     var getInfoPartido = infoPartido
     fun setInfoPartido(info: String){
         infoPartido.value = info
+    }
+    var getInfoSucesos = infoSucesos
+    fun setInfoSucesos(info: String){
+        infoSucesos.value = info
     }
 
     var getJugadoresLocal = jugadoresLocal

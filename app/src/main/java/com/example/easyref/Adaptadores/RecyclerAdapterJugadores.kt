@@ -27,7 +27,7 @@ class RecyclerAdapterJugadores(var c: List<JugadorEntity>,tipo:String) : Recycle
     ): SimpleViewHolderJugadores {
 
         val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_jugador_layout, parent, false)
+            .inflate(R.layout.recycler_arbitrar_jugador_layout, parent, false)
         v.setOnClickListener(this)
         v.setOnLongClickListener(this)
         return SimpleViewHolderJugadores(v,mandar)
@@ -65,19 +65,20 @@ class SimpleViewHolderJugadores(itemView: View,tipo:String) :
 {
     var nombre: TextView
     var apellidos: TextView
-    var foto:ImageView
+    //var foto:ImageView
     var dorsal:TextView
     var comparar:String
 
     fun bind(dato: JugadorEntity) {
         nombre.setText(dato.nombreJugador.toString())
         apellidos.setText(dato.apellidosJugador.toString())
-        if(comparar == "LOCAL")
+        dorsal.setText(dato.dorsal.toString())
+        /*if(comparar == "LOCAL")
             foto.setImageResource(R.drawable.jugador_local_avatar)
         else
             foto.setImageResource(R.drawable.jugador_visitante_avatar)
-        dorsal.setText(dato.dorsal.toString())
-        /*if(dato.fotoArbitro.toString().equals(""))
+
+        if(dato.fotoArbitro.toString().equals(""))
             foto.setImageResource(R.drawable.arbitro_avatar)
         else {
             var imagenUtilidad = ImagenUtilidad()
@@ -89,7 +90,7 @@ class SimpleViewHolderJugadores(itemView: View,tipo:String) :
     init {
         nombre = itemView.findViewById(R.id.nombreJugador)
         apellidos = itemView.findViewById(R.id.apellidosJugador)
-        foto = itemView.findViewById(R.id.fotoJugador)
+        //foto = itemView.findViewById(R.id.fotoJugador)
         dorsal = itemView.findViewById(R.id.dorsalJugador)
         comparar = tipo
     }

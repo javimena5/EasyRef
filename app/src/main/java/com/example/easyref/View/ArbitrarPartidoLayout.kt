@@ -40,6 +40,7 @@ class ArbitrarPartidoLayout : Fragment() {
     var seleccionado: JugadorEntity? = null
     private val datosViewModel : PasarDatosViewModel by activityViewModels()
     var infoPartido:String = ""
+    var infoSucesos:String = ""
     var delay:Long = 5
     var golesLocal = 0
     var golesVisitante = 0
@@ -137,12 +138,20 @@ class ArbitrarPartidoLayout : Fragment() {
 
         var view = inflater.inflate(R.layout.arbitrar_layout, container, false)
 
-
+        // idTitularesLocal|idSuplentesLocal|idTitularesVisitante|idSuplentesVisitante|
         var cronometroIniciado = false
-        infoPartido += "Modalidad_: Fútbol "+datosViewModel.getTipoPartido.value!!+"|"
-        infoPartido += "EquipoLocal_: "+datosViewModel.getEquipoLocal.value!!.nombreEquipo+"|"
-        infoPartido += "EquipoVisitante_: "+datosViewModel.getEquipoVisitante.value!!.nombreEquipo+"|"
-        infoPartido += "Árbitro_: "+datosViewModel.getArbitro.value!!.nombreArbitro+" "+datosViewModel.getArbitro.value!!.apellidosArbitro+"|"
+        for(jug in listaIdTitularesLocalesDB)
+            infoPartido += jug.toString()+"$"
+        infoPartido += "|"
+        for(jug in listaIdSuplentesLocalesDB)
+            infoPartido += jug.toString()+"$"
+        infoPartido += "|"
+        for(jug in listaIdTitularesVisitantesDB)
+            infoPartido += jug.toString()+"$"
+        infoPartido += "|"
+        for(jug in listaIdSuplentesVisitantesDB)
+            infoPartido += jug.toString()+"$"
+        infoPartido += "|"
 
         /// START CRONOMETRO
         view.findViewById<ImageButton>(R.id.startCrono).setOnClickListener{
@@ -184,7 +193,7 @@ class ArbitrarPartidoLayout : Fragment() {
                                         coroutineParar = CoroutineScope(Dispatchers.Main)
 
                                         if(extraTime > 0){
-                                            infoPartido += "Extra_: "+extraTime+"|"
+                                            infoPartido += "Descuento: "+extraTime+"|"
                                             view.findViewById<TextView>(R.id.extraTime).text = "EXTRA: "+extraTime
                                             view.findViewById<TextView>(R.id.extraTime).visibility = View.VISIBLE
 
@@ -264,7 +273,7 @@ class ArbitrarPartidoLayout : Fragment() {
                                         coroutineParar = CoroutineScope(Dispatchers.Main)
 
                                         if(extraTime > 0){
-                                            infoPartido += "Extra_: "+extraTime+"|"
+                                            infoPartido += "Descuento: "+extraTime+"|"
                                             view.findViewById<TextView>(R.id.extraTime).text = "EXTRA: "+extraTime
                                             view.findViewById<TextView>(R.id.extraTime).visibility = View.VISIBLE
 
@@ -295,9 +304,10 @@ class ArbitrarPartidoLayout : Fragment() {
                                         cronometroIniciado = false
                                         pausaReglamentaria = false
                                         final = true
-                                        infoPartido += "FINAL_: "+golesLocal+" - "+golesVisitante+"|"
+                                        infoPartido += "RESULTADO: "+golesLocal+" - "+golesVisitante+"|"
                                         var navHost = NavHostFragment.findNavController(this@ArbitrarPartidoLayout)
                                         datosViewModel.setInfoPartido(infoPartido)
+                                        datosViewModel.setInfoSucesos(infoSucesos)
                                         navHost.navigate(R.id.action_arbitrarPartidoLayout_to_infoPartidoLayout)
                                     }
                                 }
@@ -479,7 +489,7 @@ class ArbitrarPartidoLayout : Fragment() {
                 if(primeraParte) {
                     when(suceso){
                         "gol"-> {
-                            infoPartido += "Gol_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                            infoSucesos += "GOL: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutos.toString().padStart(2, '0') + ":" + segundos.toString()
                                 .padStart(2, '0') + ")|"
                         }
@@ -497,7 +507,7 @@ class ArbitrarPartidoLayout : Fragment() {
                             }
                             else
                                 listaJugadoresAmarilla.add(seleccionado!!)
-                            infoPartido += "Amarilla_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                            infoSucesos += "AMARILLA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutos.toString().padStart(2, '0') + ":" + segundos.toString()
                                 .padStart(2, '0') + ")|"
                         }
@@ -511,7 +521,7 @@ class ArbitrarPartidoLayout : Fragment() {
                             listaJugadoresSuplentesVisitante.remove(seleccionado)
                             jugadoresMostrar.remove(seleccionado)
                             seleccionado!!.expulsado = 1
-                            infoPartido += "Roja_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                            infoSucesos += "ROJA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutos.toString().padStart(2, '0') + ":" + segundos.toString()
                                 .padStart(2, '0') + ")|"
                         }
@@ -525,7 +535,7 @@ class ArbitrarPartidoLayout : Fragment() {
                 }else {
                     when (suceso){
                         "gol"->{
-                            infoPartido += "Gol_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                            infoSucesos += "GOL: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutosSegunda.toString()
                                         .padStart(2, '0') + ":" + segundosSegunda.toString()
                                 .padStart(2, '0') + ")|"
@@ -544,7 +554,7 @@ class ArbitrarPartidoLayout : Fragment() {
                             }
                             else
                                 listaJugadoresAmarilla.add(seleccionado!!)
-                            infoPartido += "Amarilla_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                            infoSucesos += "AMARILLA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutosSegunda.toString()
                                         .padStart(2, '0') + ":" + segundosSegunda.toString()
                                 .padStart(2, '0') + ")|"
@@ -559,7 +569,7 @@ class ArbitrarPartidoLayout : Fragment() {
                             listaJugadoresSuplentesVisitante.remove(seleccionado)
                             jugadoresMostrar.remove(seleccionado)
                             seleccionado!!.expulsado = 1
-                            infoPartido += "Roja_: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                            infoSucesos += "ROJA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
                                     minutosSegunda.toString()
                                         .padStart(2, '0') + ":" + segundosSegunda.toString()
                                 .padStart(2, '0') + ")|"
@@ -600,11 +610,11 @@ class ArbitrarPartidoLayout : Fragment() {
                 seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
                 jugadorEntra = seleccionado
                 if(primeraParte){
-                    infoPartido += "Cambio_: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
+                    infoSucesos += "CAMBIO: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
                             jugadorSale!!.nombreJugador+" "+ jugadorSale!!.apellidosJugador + " (" +
                             minutos.toString().padStart(2, '0')+":"+segundos.toString().padStart(2, '0')+")|"
                 }else {
-                    infoPartido += "Cambio_: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
+                    infoSucesos += "CAMBIO: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
                             jugadorSale!!.nombreJugador+" "+ jugadorSale!!.apellidosJugador + " (" +
                                 minutosSegunda.toString().padStart(2, '0')+":"+segundosSegunda.toString().padStart(2, '0')+")|"
                 }

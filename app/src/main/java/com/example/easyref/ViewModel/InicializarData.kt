@@ -31,7 +31,7 @@ object InicializarData {
         lista.add(JugadorEntity(0,"Karim","Benzema",9,"",1,0,0))
         lista.add(JugadorEntity(0,"Vinicius","Junior",20,"",1,0,0))
         lista.add(JugadorEntity(0,"Rodrygo","Goes",21,"",1,0,0))
-        lista.add(JugadorEntity(0,"Luka","Modrić",10,"",1,0,0))
+        lista.add(JugadorEntity(0,"Luka","Modric",10,"",1,0,0))
         lista.add(JugadorEntity(0,"Fede","Valverde",15,"",1,0,0))
         lista.add(JugadorEntity(0,"Ferland","Mendy",23,"",1,0,0))
         lista.add(JugadorEntity(0,"Thibaut","Courtois",1,"",1,0,0))
