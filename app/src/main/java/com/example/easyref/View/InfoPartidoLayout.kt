@@ -70,6 +70,7 @@ class InfoPartidoLayout : Fragment() {
             }
         }
         var view = inflater.inflate(R.layout.info_partido_layout, container, false)
+        view.findViewById<TextView>(R.id.infoPartido).text = datosViewModel.getInfoResultado.value!!
         var stringInfo = datosViewModel.getInfoPartido.value
 
         CoroutineScope(Dispatchers.IO).launch {

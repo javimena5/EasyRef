@@ -129,6 +129,12 @@
                         android:backgroundTint="@color/verde_suave"
                         android:src="@drawable/play_ic"/>
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/marcador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 - 0"
+                    android:textSize="45dp"/>
             </LinearLayout>
         </LinearLayout>
     <LinearLayout

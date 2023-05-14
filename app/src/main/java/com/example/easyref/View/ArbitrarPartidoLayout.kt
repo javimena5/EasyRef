@@ -155,6 +155,7 @@ class ArbitrarPartidoLayout : Fragment() {
 
         /// START CRONOMETRO
         view.findViewById<ImageButton>(R.id.startCrono).setOnClickListener{
+            view.findViewById<TextView>(R.id.marcador).text = ""+golesLocal + " - "+ golesVisitante
             if(primeraParte && !final){
                 view.findViewById<LinearLayout>(R.id.cronoPrimera).visibility = View.VISIBLE
                 view.findViewById<LinearLayout>(R.id.cronoSegunda).visibility = View.GONE
@@ -659,11 +660,11 @@ class ArbitrarPartidoLayout : Fragment() {
                 seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
                 jugadorEntra = seleccionado
                 if(primeraParte){
-                    infoSucesos += "CAMBIO: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
+                    infoSucesos += "CAMBIO: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <-> "+
                             jugadorSale!!.nombreJugador+" "+ jugadorSale!!.apellidosJugador + " (" +
                             minutos.toString().padStart(2, '0')+":"+segundos.toString().padStart(2, '0')+")|"
                 }else {
-                    infoSucesos += "CAMBIO: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <->"+
+                    infoSucesos += "CAMBIO: "+jugadorEntra!!.nombreJugador+" "+ jugadorEntra!!.apellidosJugador+" <-> "+
                             jugadorSale!!.nombreJugador+" "+ jugadorSale!!.apellidosJugador + " (" +
                                 minutosSegunda.toString().padStart(2, '0')+":"+segundosSegunda.toString().padStart(2, '0')+")|"
                 }
