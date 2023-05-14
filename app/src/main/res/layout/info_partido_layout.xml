@@ -25,7 +25,7 @@
         android:textSize="50dp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="@color/verde_suave"
+        android:textColor="@color/naranja_suave"
         android:text="infoPartido" />
 </LinearLayout>
 

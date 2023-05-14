@@ -2,30 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/fondo_general">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:gravity="right"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="30dp">
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/icono_sin"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:layout_marginBottom="55dp">
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/modoArbitro"
-                android:layout_margin="10dp"
-                android:text="MODO ARBITRO"></Button>
+                android:text="MODO ÁRBITRO"
+                android:textColor="@color/fondo_general"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textAlignment="textStart"
+                android:background="@drawable/inicio_button"
+                android:layout_marginBottom="10dp"/>
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/modoVar"
-                android:layout_margin="10dp"
-                android:text="MODO VAR"></Button>
+                android:id="@+id/modoRapido"
+                android:text="PARTIDO RÁPIDO"
+                android:textColor="@color/fondo_general"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textAlignment="textStart"
+                android:background="@drawable/inicio_button"
+                />
     </LinearLayout>
-    </ScrollView>
 </LinearLayout>
 
 

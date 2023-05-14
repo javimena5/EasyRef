@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="verde_suave">#5B8C50</color>
-    <color name="verde_general">#10591C</color>
-    <color name="gris_general">#424242</color>
-    <color name="verde_chillon">#3CDA03</color>
-    <color name="verde">#288122</color>
+    <color name="naranja_suave">#FFA970</color>
+    <color name="naranja_general">#fc4b08</color>
+    <color name="fondo_general">#2C363E</color>
+    <color name="naranja_chillon">#FF7541</color>
+    <color name="naranja">#fc4b08</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

@@ -2,7 +2,8 @@ package com.example.easyref.View
 
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.graphics.fonts.FontFamily
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
@@ -21,7 +22,6 @@ import com.example.easyref.Modelo.PasarDatosViewModel
 import com.example.easyref.R
 import com.example.easyref.ViewModel.EasyRefController
 import com.itextpdf.text.*
-import com.itextpdf.text.pdf.BaseFont
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
@@ -30,9 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
+import java.io.*
 import java.util.*
 
 
@@ -148,11 +146,25 @@ class InfoPartidoLayout : Fragment() {
             val file = File(dir, tituloPDF+".pdf")
             val fileOutputStream = FileOutputStream(file)
 
-            val documento = Document()
+            val documento = Document(PageSize.A4, 88f, 88f, 5f, 10f)
             PdfWriter.getInstance(documento, fileOutputStream)
 
             documento.open()
-
+            val bm = BitmapFactory.decodeResource(resources, R.drawable.icono_sin)
+            val stream = ByteArrayOutputStream()
+            bm.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            var img: Image? = null
+            val byteArray: ByteArray = stream.toByteArray()
+            try {
+                img = Image.getInstance(byteArray)
+                img.setAbsolutePosition(500f,780f)
+                img.scaleAbsolute(50f,50f)
+            } catch (e: BadElementException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            documento.add(img)
             val titulo = Paragraph(
                 "ACTA ARBITRAL EASYREF\n",
                 Font(Font.FontFamily.TIMES_ROMAN,22f,Font.BOLD)

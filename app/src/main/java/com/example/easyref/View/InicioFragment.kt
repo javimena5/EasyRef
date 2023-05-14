@@ -27,7 +27,7 @@ class InicioFragment : Fragment() {
             navHost.navigate(R.id.action_inicioFragment_to_listaArbitrosFragment)
         }
 
-        view.findViewById<Button>(R.id.modoVar).setOnClickListener{
+        view.findViewById<Button>(R.id.modoRapido).setOnClickListener{
             var navHost = NavHostFragment.findNavController(this@InicioFragment)
             navHost.navigate(R.id.action_inicioFragment_to_modoVarFragment)
         }
