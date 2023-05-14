@@ -2,6 +2,7 @@ package com.example.easyref.View
 
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.graphics.fonts.FontFamily
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
@@ -20,8 +21,11 @@ import com.example.easyref.Modelo.PasarDatosViewModel
 import com.example.easyref.R
 import com.example.easyref.ViewModel.EasyRefController
 import com.itextpdf.text.*
+import com.itextpdf.text.pdf.BaseFont
+import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
+import com.itextpdf.text.pdf.draw.LineSeparator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +34,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.util.*
+
 
 class InfoPartidoLayout : Fragment() {
     private val requestPermissionLauncher = registerForActivityResult(
@@ -66,6 +71,7 @@ class InfoPartidoLayout : Fragment() {
         }
         var view = inflater.inflate(R.layout.info_partido_layout, container, false)
         var stringInfo = datosViewModel.getInfoPartido.value
+
         CoroutineScope(Dispatchers.IO).launch {
             idTitularesLocal = stringInfo!!.split("|").toTypedArray()[0]
             idSuplentesLocal = stringInfo!!.split("|").toTypedArray()[1]
@@ -109,7 +115,6 @@ class InfoPartidoLayout : Fragment() {
 
             }
         }
-        view.findViewById<TextView>(R.id.infoPartido).setText(stringInfo!!.replace("|","\n"))
 
         view.findViewById<Button>(R.id.nuevoPartido).setOnClickListener {
             var navHost = NavHostFragment.findNavController(this@InfoPartidoLayout)
@@ -148,16 +153,45 @@ class InfoPartidoLayout : Fragment() {
             documento.open()
 
             val titulo = Paragraph(
-                "ACTA ARBITRAL EASYREF\n\n",
-                FontFactory.getFont("arial", 22f, Font.BOLD, BaseColor.BLACK)
+                "ACTA ARBITRAL EASYREF\n",
+                Font(Font.FontFamily.TIMES_ROMAN,22f,Font.BOLD)
+            )
+            titulo.alignment = Element.ALIGN_CENTER
+            documento.add(titulo)
+            documento.add(Chunk(LineSeparator()))
+
+            val comite = Paragraph(
+                "COMITÉ TÉCNICO DE ÁRBITROS\n",
+                Font(Font.FontFamily.TIMES_ROMAN,16f,Font.NORMAL)
+            )
+            comite.alignment = Element.ALIGN_CENTER
+            documento.add(comite)
+            documento.add(Chunk(LineSeparator()))
+
+            val infoActa = Paragraph(
+                "Acta del partido celebrado el "+calendar.get(Calendar.DAY_OF_MONTH).toString()+" del "+
+                        (calendar.get(Calendar.MONTH)+1).toString() + " de "+calendar.get(Calendar.YEAR).toString()+"\n"+
+                        "Árbitro: "+datosViewModel.getArbitro.value!!.apellidosArbitro+", "+datosViewModel.getArbitro.value!!.nombreArbitro+"\n\n"
+                ,
+                Font(Font.FontFamily.TIMES_ROMAN,12f,Font.NORMAL)
+            )
+            documento.add(infoActa)
+            val divisionTitulares = Paragraph(
+                "                Jugadores Titulares\n\n",
+                Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)
             )
 
-            documento.add(titulo)
-
+            documento.add(divisionTitulares)
             val tablaTitulares = PdfPTable(2)
-            tablaTitulares.addCell("EQUIPO LOCAL");tablaTitulares.addCell("EQUIPO VISITANTE")
-            tablaTitulares.addCell(datosViewModel.getEquipoLocal.value!!.nombreEquipo)
-            tablaTitulares.addCell(datosViewModel.getEquipoVisitante.value!!.nombreEquipo)
+
+            tablaTitulares.addCell(Phrase("EQUIPO LOCAL",Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)))
+            tablaTitulares.addCell(Phrase("EQUIPO VISITANTE",Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)))
+            var cellLocal = PdfPCell(Phrase(datosViewModel.getEquipoLocal.value!!.nombreEquipo,Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)))
+            cellLocal.backgroundColor = BaseColor.LIGHT_GRAY
+            var cellVisitante = PdfPCell(Phrase(datosViewModel.getEquipoVisitante.value!!.nombreEquipo,Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)))
+            cellVisitante.backgroundColor = BaseColor.LIGHT_GRAY
+            tablaTitulares.addCell(cellLocal)
+            tablaTitulares.addCell(cellVisitante)
             for(i in 0..listaJugadoresTitularesLocal.size-1){
                 jugL = listaJugadoresTitularesLocal[i]
                 jugV = listaJugadoresTitularesVisitante[i]
@@ -167,8 +201,8 @@ class InfoPartidoLayout : Fragment() {
 
             documento.add(tablaTitulares)
             val divisionSuplentes = Paragraph(
-                "Jugadores Suplentes\n\n",
-                FontFactory.getFont("arial", 12f, Font.NORMAL, BaseColor.BLACK)
+                "                Jugadores Suplentes\n\n",
+                Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)
             )
 
             documento.add(divisionSuplentes)
@@ -194,6 +228,31 @@ class InfoPartidoLayout : Fragment() {
             }
 
             documento.add(tablaSuplentes)
+            val divisionResultado = Paragraph(
+                "                Resultado\n",
+                Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)
+            )
+            documento.add(divisionResultado)
+            var resultadoInfo = datosViewModel.getInfoResultado.value
+            val resultado = Paragraph(resultadoInfo,
+                Font(Font.FontFamily.TIMES_ROMAN,22f,Font.BOLD)
+            )
+            resultado.alignment = Element.ALIGN_CENTER
+
+            documento.add(resultado)
+            documento.add(Chunk(LineSeparator()))
+            val tablaSucesos = PdfPTable(1)
+            val divisionSucesos = Paragraph(
+                "                Acontecimientos\n\n",
+                Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)
+            )
+            documento.add(divisionSucesos)
+            var sucesosInfo = datosViewModel.getInfoSucesos.value
+            var sucesosArray = sucesosInfo!!.split("|").toTypedArray()
+            for(suceso in sucesosArray){
+                tablaSucesos.addCell(suceso)
+            }
+            documento.add(tablaSucesos)
             documento.close()
 
 

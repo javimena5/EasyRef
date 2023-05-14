@@ -304,10 +304,10 @@ class ArbitrarPartidoLayout : Fragment() {
                                         cronometroIniciado = false
                                         pausaReglamentaria = false
                                         final = true
-                                        infoPartido += "RESULTADO: "+golesLocal+" - "+golesVisitante+"|"
                                         var navHost = NavHostFragment.findNavController(this@ArbitrarPartidoLayout)
                                         datosViewModel.setInfoPartido(infoPartido)
                                         datosViewModel.setInfoSucesos(infoSucesos)
+                                        datosViewModel.setInfoResultado(""+golesLocal+" - "+golesVisitante)
                                         navHost.navigate(R.id.action_arbitrarPartidoLayout_to_infoPartidoLayout)
                                     }
                                 }
@@ -423,6 +423,7 @@ class ArbitrarPartidoLayout : Fragment() {
                 }
                 "cambio" -> {
                     jugadoresMostrar = listaJugadoresTitularesLocal
+                    jugadoresMostrar.removeAll(listaJugadoresRoja)
                     dialogBuilder = createCambioSaleDialogo(minutosSegunda,"LOCAL")
                 }
             }
@@ -446,6 +447,7 @@ class ArbitrarPartidoLayout : Fragment() {
                 }
                 "cambio" -> {
                     jugadoresMostrar = listaJugadoresTitularesVisitante
+                    jugadoresMostrar.removeAll(listaJugadoresRoja)
                     dialogBuilder = createCambioSaleDialogo(minutosSegunda,"VISITANTE")
                 }
             }
@@ -482,6 +484,7 @@ class ArbitrarPartidoLayout : Fragment() {
     }
 
     fun cargarAdapter(tipo:String,minutosSegunda: Int,suceso: String){
+        var salir:Boolean = true
         adaptador = RecyclerAdapterArbitrarJugadores(jugadoresMostrar) // la lista esta vacia pero no sale
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
@@ -489,9 +492,17 @@ class ArbitrarPartidoLayout : Fragment() {
                 if(primeraParte) {
                     when(suceso){
                         "gol"-> {
-                            infoSucesos += "GOL: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
-                                    minutos.toString().padStart(2, '0') + ":" + segundos.toString()
-                                .padStart(2, '0') + ")|"
+                            if(listaJugadoresSuplentesLocal.contains(seleccionado)||listaJugadoresSuplentesVisitante.contains(seleccionado)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está en el banquillo",Toast.LENGTH_SHORT)
+                                salir = false
+                            }
+                            else{
+                                salir = true
+                                infoSucesos += "GOL: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                                        minutos.toString().padStart(2, '0') + ":" + segundos.toString()
+                                    .padStart(2, '0') + ")|"
+                            }
+
                         }
                         "amarilla"->  {
                             if(listaJugadoresAmarilla.contains(seleccionado)){
@@ -504,6 +515,9 @@ class ArbitrarPartidoLayout : Fragment() {
                                 listaJugadoresSuplentesVisitante.remove(seleccionado)
                                 jugadoresMostrar.remove(seleccionado)
                                 seleccionado!!.expulsado = 1
+                            }else if(listaJugadoresRoja.contains(seleccionado)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está expulsado",Toast.LENGTH_SHORT)
+                                salir = false
                             }
                             else
                                 listaJugadoresAmarilla.add(seleccionado!!)
@@ -512,33 +526,51 @@ class ArbitrarPartidoLayout : Fragment() {
                                 .padStart(2, '0') + ")|"
                         }
                         "roja"->  {
-                            listaJugadoresRoja.add(seleccionado!!)
-                            listaJugadoresLocales.remove(seleccionado)
-                            listaJugadoresVisitantes.remove(seleccionado)
-                            listaJugadoresTitularesLocal.remove(seleccionado)
-                            listaJugadoresTitularesVisitante.remove(seleccionado)
-                            listaJugadoresSuplentesLocal.remove(seleccionado)
-                            listaJugadoresSuplentesVisitante.remove(seleccionado)
-                            jugadoresMostrar.remove(seleccionado)
-                            seleccionado!!.expulsado = 1
-                            infoSucesos += "ROJA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
-                                    minutos.toString().padStart(2, '0') + ":" + segundos.toString()
-                                .padStart(2, '0') + ")|"
+                            if(listaJugadoresRoja.contains(seleccionado)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está expulsado",Toast.LENGTH_SHORT)
+                                salir = false
+                            }else{
+                                listaJugadoresRoja.add(seleccionado!!)
+                                listaJugadoresLocales.remove(seleccionado)
+                                listaJugadoresVisitantes.remove(seleccionado)
+                                listaJugadoresTitularesLocal.remove(seleccionado)
+                                listaJugadoresTitularesVisitante.remove(seleccionado)
+                                listaJugadoresSuplentesLocal.remove(seleccionado)
+                                listaJugadoresSuplentesVisitante.remove(seleccionado)
+                                jugadoresMostrar.remove(seleccionado)
+                                seleccionado!!.expulsado = 1
+                                infoSucesos += "ROJA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                                        minutos.toString().padStart(2, '0') + ":" + segundos.toString()
+                                    .padStart(2, '0') + ")|"
+                            }
                         }
                         "cambio"->  {
-                            seleccionado =
-                                jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
-                            jugadorSale = seleccionado
-                            dialogBuilder = createCambioDialogo(minutosSegunda, tipo)
+                            var selecExpuls = seleccionado
+                            selecExpuls!!.expulsado = 1
+                            if(listaJugadoresRoja.contains(seleccionado) || listaJugadoresRoja.contains(selecExpuls)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está expulsado",Toast.LENGTH_SHORT)
+                                salir = false
+                            }else{
+                                seleccionado =
+                                    jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
+                                jugadorSale = seleccionado
+                                dialogBuilder = createCambioDialogo(minutosSegunda, tipo)
+                            }
                         }
                     }
                 }else {
                     when (suceso){
                         "gol"->{
-                            infoSucesos += "GOL: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
-                                    minutosSegunda.toString()
-                                        .padStart(2, '0') + ":" + segundosSegunda.toString()
-                                .padStart(2, '0') + ")|"
+                            if(listaJugadoresSuplentesLocal.contains(seleccionado)||listaJugadoresSuplentesVisitante.contains(seleccionado)) {
+                                salir = false
+                                Toast.makeText(requireContext(), "Acción inválida. El jugador está en el banquillo", Toast.LENGTH_SHORT)
+                            }else {
+                                salir = true
+                                infoSucesos += "GOL: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                                        minutosSegunda.toString()
+                                            .padStart(2, '0') + ":" + segundosSegunda.toString()
+                                    .padStart(2, '0') + ")|"
+                            }
                         }
                         "amarilla"-> {
                             if(listaJugadoresAmarilla.contains(seleccionado)){
@@ -551,6 +583,9 @@ class ArbitrarPartidoLayout : Fragment() {
                                 listaJugadoresSuplentesVisitante.remove(seleccionado)
                                 jugadoresMostrar.remove(seleccionado)
                                 seleccionado!!.expulsado = 1
+                            }else if(listaJugadoresRoja.contains(seleccionado)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está expulsado",Toast.LENGTH_SHORT)
+                                salir = false
                             }
                             else
                                 listaJugadoresAmarilla.add(seleccionado!!)
@@ -560,35 +595,49 @@ class ArbitrarPartidoLayout : Fragment() {
                                 .padStart(2, '0') + ")|"
                         }
                         "roja"-> {
-                            listaJugadoresRoja.add(seleccionado!!)
-                            listaJugadoresLocales.remove(seleccionado)
-                            listaJugadoresVisitantes.remove(seleccionado)
-                            listaJugadoresTitularesLocal.remove(seleccionado)
-                            listaJugadoresTitularesVisitante.remove(seleccionado)
-                            listaJugadoresSuplentesLocal.remove(seleccionado)
-                            listaJugadoresSuplentesVisitante.remove(seleccionado)
-                            jugadoresMostrar.remove(seleccionado)
-                            seleccionado!!.expulsado = 1
-                            infoSucesos += "ROJA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
-                                    minutosSegunda.toString()
-                                        .padStart(2, '0') + ":" + segundosSegunda.toString()
-                                .padStart(2, '0') + ")|"
+                            if(listaJugadoresRoja.contains(seleccionado)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está expulsado",Toast.LENGTH_SHORT)
+                                salir = false
+                            }else{
+                                listaJugadoresRoja.add(seleccionado!!)
+                                listaJugadoresLocales.remove(seleccionado)
+                                listaJugadoresVisitantes.remove(seleccionado)
+                                listaJugadoresTitularesLocal.remove(seleccionado)
+                                listaJugadoresTitularesVisitante.remove(seleccionado)
+                                listaJugadoresSuplentesLocal.remove(seleccionado)
+                                listaJugadoresSuplentesVisitante.remove(seleccionado)
+                                jugadoresMostrar.remove(seleccionado)
+                                seleccionado!!.expulsado = 1
+                                infoSucesos += "ROJA: " + seleccionado!!.nombreJugador + " " + seleccionado!!.apellidosJugador + " (" +
+                                        minutosSegunda.toString()
+                                            .padStart(2, '0') + ":" + segundosSegunda.toString()
+                                    .padStart(2, '0') + ")|"
+                            }
                         }
                         "cambio"-> {
-                            seleccionado =
-                                jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
-                            jugadorSale = seleccionado
-                            dialogBuilder = createCambioDialogo(minutosSegunda, tipo)
+                            var selecExpuls = seleccionado
+                            selecExpuls!!.expulsado = 1
+                            if(listaJugadoresRoja.contains(seleccionado) || listaJugadoresRoja.contains(selecExpuls)){
+                                Toast.makeText(requireContext(),"Acción inválida. El jugador está expulsado",Toast.LENGTH_SHORT)
+                                salir = false
+                            }else{
+                                seleccionado =
+                                    jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
+                                jugadorSale = seleccionado
+                                dialogBuilder = createCambioDialogo(minutosSegunda, tipo)
+                            }
                         }
                     }
                 }
                 CoroutineScope(Dispatchers.IO).launch {
                     EasyRefController.updateJugador(seleccionado!!)
                 }
-                dialog?.dismiss()
-                if(suceso.equals("cambio")){
-                    cargarAdapterSuplentes(tipo, minutosSegunda)
-                    dialog = dialogBuilder.setCancelable(false).show()
+                if (salir){
+                    dialog?.dismiss()
+                    if(suceso.equals("cambio")){
+                        cargarAdapterSuplentes(tipo, minutosSegunda)
+                        dialog = dialogBuilder.setCancelable(false).show()
+                    }
                 }
             }
         })
