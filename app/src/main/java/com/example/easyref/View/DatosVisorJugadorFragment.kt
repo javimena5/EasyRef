@@ -32,7 +32,6 @@ class DatosVisorJugadorFragment : Fragment() {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
 
-        RetrofitController.crearRetrofit()
         var dorsalAdd : Int = 0
         val equipoActual : EquipoEntity = datosViewModel.getEquipoSeleccionado.value!!
         var listaDorsalesDB : MutableList<Int> = mutableListOf()

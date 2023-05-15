@@ -129,13 +129,15 @@
         android:label="EditorEquiposFragment" >
         <action
             android:id="@+id/action_editorEquiposFragment_to_visorJugadoresFragment"
-            app:destination="@id/visorJugadoresFragment" />
+            app:destination="@id/visorJugadoresFragment"
+            app:popUpTo="@id/editorEquiposFragment" />
         <action
             android:id="@+id/action_editorEquiposFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
         <action
             android:id="@+id/action_editorEquiposFragment_to_datosVisorEquipoFragment"
-            app:destination="@id/datosVisorEquipoFragment" />
+            app:destination="@id/datosVisorEquipoFragment"
+            app:popUpTo="@id/editorEquiposFragment" />
     </fragment>
     <fragment
         android:id="@+id/visorJugadoresFragment"
@@ -143,10 +145,12 @@
         android:label="VisorJugadoresFragment" >
         <action
             android:id="@+id/action_visorJugadoresFragment_to_editorEquiposFragment"
-            app:destination="@id/editorEquiposFragment" />
+            app:destination="@id/editorEquiposFragment"
+            app:popUpTo="@id/editorEquiposFragment" />
         <action
             android:id="@+id/action_visorJugadoresFragment_to_datosVisorJugadorFragment"
-            app:destination="@id/datosVisorJugadorFragment" />
+            app:destination="@id/datosVisorJugadorFragment"
+            app:popUpTo="@id/editorEquiposFragment" />
     </fragment>
     <fragment
         android:id="@+id/datosVisorJugadorFragment"
@@ -154,7 +158,8 @@
         android:label="DatosVisorJugadorFragment" >
         <action
             android:id="@+id/action_datosVisorJugadorFragment_to_visorJugadoresFragment"
-            app:destination="@id/visorJugadoresFragment" />
+            app:destination="@id/visorJugadoresFragment"
+            app:popUpTo="@id/editorEquiposFragment" />
     </fragment>
     <fragment
         android:id="@+id/datosVisorEquipoFragment"
@@ -162,7 +167,8 @@
         android:label="DatosVisorEquipoFragment" >
         <action
             android:id="@+id/action_datosVisorEquipoFragment_to_visorJugadoresFragment"
-            app:destination="@id/visorJugadoresFragment" />
+            app:destination="@id/visorJugadoresFragment"
+            app:popUpTo="@id/editorEquiposFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoRapidoLayout"

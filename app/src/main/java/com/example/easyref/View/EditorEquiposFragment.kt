@@ -1,10 +1,14 @@
 package com.example.easyref.View
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -58,7 +62,55 @@ class EditorEquiposFragment : Fragment() {
     fun cargarAdapter(){
         var stringCambiar = datosViewModel.getEquipoCambiar.value
         adaptador = RecyclerAdapterEquipos(lista)
+        adaptador.onLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(v: View?): Boolean {
+                val popupMenu = PopupMenu(requireContext(),v)
+                popupMenu.inflate(R.menu.lista_popup_menu)
 
+                popupMenu.setOnMenuItemClickListener(
+                    PopupMenu.
+                    OnMenuItemClickListener
+                    { item: MenuItem? ->
+                        when (item!!.itemId) {
+                            R.id.eliminar -> {
+                                AlertDialog.Builder(requireContext()).setMessage(
+                                    "¿Eliminar " +
+                                            lista.get(recycler.getChildAdapterPosition(v!!)).nombreEquipo + "?"
+                                )
+                                    .setPositiveButton(
+                                        "Eliminar",
+                                        DialogInterface.OnClickListener { dialog, id ->
+                                            CoroutineScope(Dispatchers.IO).launch {
+                                                EasyRefController.deleteEquipo(
+                                                    EasyRefController.getEquipo(
+                                                        lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo
+                                                    )
+                                                )
+
+                                                lista = EasyRefController.getEquipos()
+                                                withContext(Dispatchers.Main) {
+                                                    cargarAdapter()
+                                                }
+                                            }
+                                        })
+                                    .setNegativeButton(
+                                        "Cancelar",
+                                        DialogInterface.OnClickListener { dialog, id ->
+                                            dialog.cancel()
+                                        }).show()
+                            }
+                            R.id.editar -> {
+                                Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                        true
+                    })
+                popupMenu.show()
+
+                return true
+            }
+        })
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
                 datosViewModel.setEquipoSeleccionado(lista.get(recycler.getChildAdapterPosition(v!!)))
