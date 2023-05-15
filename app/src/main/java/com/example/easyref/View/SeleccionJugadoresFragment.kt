@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -51,6 +52,7 @@ class SeleccionJugadoresFragment : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+        (activity as AppCompatActivity).supportActionBar?.title = "Selección de titulares"
         var view = inflater.inflate(R.layout.seleccion_titulares_layout, container, false)
         recyclerLocales = view.findViewById(R.id.recyclerLocales)
         recyclerVisitantes = view.findViewById(R.id.recyclerVisitantes)
@@ -108,49 +110,71 @@ class SeleccionJugadoresFragment : Fragment() {
         return view
     }
 
-    private fun cargarAdapterVisitantes() {
-        var equipoVisitante: EquipoEntity = datosViewModel.getEquipoVisitante.value!!
+    fun cargarAdapterVisitantes(){
+        var equipoVisitante:EquipoEntity = datosViewModel.getEquipoVisitante.value!!
         CoroutineScope(Dispatchers.IO).launch {
-            listaVisitantes =
-                EasyRefController.getJugadores(equipoVisitante.idEquipo)
+            listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
             listaIdTitularesVisitantes = EasyRefController.getIdTitulares(equipoVisitante.idEquipo)
         }
         adaptadorVisitantes = RecyclerAdapterJugadores(listaVisitantes,"VISITANTE")
         adaptadorVisitantes.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
-                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).nombreJugador+" "+
-                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).apellidosJugador+"?")
-                    .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
-                            dialog, id -> CoroutineScope(Dispatchers.IO).launch {
-                        EasyRefController.deleteJugador(EasyRefController.getJugador(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador))
+                val popupMenu = PopupMenu(requireContext(),v)
+                popupMenu.inflate(R.menu.lista_popup_menu)
 
-                        listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
-                        withContext(Dispatchers.Main){
-                            cargarAdapterVisitantes()
+                popupMenu.setOnMenuItemClickListener(
+                    PopupMenu.
+                    OnMenuItemClickListener
+                    { item: MenuItem? ->
+                        when (item!!.itemId) {
+                            R.id.eliminar -> {
+                                AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
+                                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).nombreJugador+" "+
+                                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).apellidosJugador+"?")
+                                    .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
+                                            dialog, id -> CoroutineScope(Dispatchers.IO).launch {
+                                        EasyRefController.deleteJugador(EasyRefController.getJugador(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador))
+
+                                        listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
+                                        withContext(Dispatchers.Main){
+                                            cargarAdapterVisitantes()
+                                        }
+                                    }
+                                    })
+                                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
+                                            dialog, id -> dialog.cancel()
+                                    }).show()
+                            }
+                            R.id.editar-> {
+                                Toast.makeText(requireContext(),item.title,Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
-                    }
+                        true
                     })
-                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
-                            dialog, id -> dialog.cancel()
-                    }).show()
+                popupMenu.show()
                 return true
             }
         })
 
         adaptadorVisitantes.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
-                if(listaIdTitularesVisitantes.contains(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador)){
-                    //v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(255, 255, 255))
+                var jugador = listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)) //-----------
+
+
+
+                if(listaIdTitularesVisitantes.contains(jugador.idJugador)){
+                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(255, 255, 255))
                     contadorVisitantes--
-                    var jugador = listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!))
+
+
                     jugador.esTitular = 0
                     CoroutineScope(Dispatchers.IO).launch {
                         EasyRefController.updateJugador(jugador)
                     }
                 }else {
                     contadorVisitantes++
-                    //v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(106, 161, 119))
+                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(getResources().getColor(R.color.naranja_suave))
                     var jugador = listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!))
                     jugador.esTitular = 1
                     CoroutineScope(Dispatchers.IO).launch {
@@ -159,6 +183,9 @@ class SeleccionJugadoresFragment : Fragment() {
                 }
                 CoroutineScope(Dispatchers.IO).launch {
                     listaIdTitularesVisitantes = EasyRefController.getIdTitulares(equipoVisitante.idEquipo)
+                    withContext(Dispatchers.Main){
+                        cargarAdapterVisitantes()
+                    }
                 }
                 view!!.findViewById<TextView>(R.id.contadorVisitantes).setText(contadorVisitantes.toString()+"/"+datosViewModel.getNumeroJugadores.value)
             }

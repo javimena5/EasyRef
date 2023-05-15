@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,8 +37,8 @@ class ListaEquiposFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.lista_arbitros_fragment, container, false)
-
+        var view = inflater.inflate(R.layout.lista_equipos_fragment, container, false)
+        (activity as AppCompatActivity).supportActionBar?.title = "Equipos"
         recycler = view.findViewById(R.id.recycler)
         lista = listOf()
         cargarAdapter()
