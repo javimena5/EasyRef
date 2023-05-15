@@ -3,12 +3,14 @@ package com.example.easyref.View
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
@@ -35,6 +37,7 @@ class SeleccionEquiposFragment : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+        (activity as AppCompatActivity).supportActionBar?.title = "Selección de equipos"
         var view = inflater.inflate(R.layout.seleccion_equipos_fragment, container, false)
 
         view.findViewById<TextView>(R.id.nombreLocal).text = datosViewModel.getEquipoLocal.value?.nombreEquipo
@@ -88,4 +91,11 @@ class SeleccionEquiposFragment : Fragment() {
         return view
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.getItemId() === android.R.id.home) {
+            var navHost = NavHostFragment.findNavController(this@SeleccionEquiposFragment)
+            navHost.navigate(R.id.action_seleccionEquiposFragment_to_seleccionModo)
+        }
+        return true
+    }
 }
