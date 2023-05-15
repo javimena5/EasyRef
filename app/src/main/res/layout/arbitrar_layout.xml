@@ -22,6 +22,7 @@
                 android:layout_marginLeft="10dp"
                 android:textSize="40dp">
                 <TextView
+                    android:textColor="@color/naranja_suave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/minutos"
@@ -29,12 +30,14 @@
                     android:textSize="25dp"
                     android:text="00"/>
                 <TextView
+                    android:textColor="@color/naranja_suave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
                     android:layout_margin="2dp"
                     android:text=":"/>
                 <TextView
+                    android:textColor="@color/naranja_suave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/segundos"
@@ -52,6 +55,7 @@
                 android:textSize="40dp"
                 android:visibility="gone">
                 <TextView
+                    android:textColor="@color/naranja_suave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/minutosSegunda"
@@ -59,12 +63,14 @@
                     android:textSize="25dp"
                     android:text="00"/>
                 <TextView
+                    android:textColor="@color/naranja_suave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
                     android:layout_margin="2dp"
                     android:text=":"/>
                 <TextView
+                    android:textColor="@color/naranja_suave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/segundosSegunda"
@@ -91,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/minutosParar"
@@ -99,6 +106,7 @@
                         android:textStyle="bold"
                         android:text="00"/>
                     <TextView
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="75dp"
@@ -106,6 +114,7 @@
                         android:textStyle="bold"
                         android:text=":"/>
                     <TextView
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/segundosParar"
@@ -131,6 +140,7 @@
                         android:src="@drawable/play_ic"/>
                 </LinearLayout>
                 <TextView
+                    android:textColor="@color/white"
                     android:id="@+id/marcador"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

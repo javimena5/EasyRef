@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -64,12 +65,15 @@ class ArbitrarPartidoLayout : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as AppCompatActivity).supportActionBar?.hide()
+
         var listaIdLocales : List<Int> = listOf<Int>()
         var listaIdVisitantes : List<Int> = listOf<Int>()
         var listaIdTitularesLocalesDB : List<Int> = listOf<Int>()
         var listaIdTitularesVisitantesDB : List<Int> = listOf<Int>()
         var listaIdSuplentesLocalesDB : List<Int> = listOf<Int>()
         var listaIdSuplentesVisitantesDB : List<Int> = listOf<Int>()
+
 
         CoroutineScope(Dispatchers.IO).launch {
             listaIdLocales = EasyRefController.getIdJugadores(datosViewModel.getEquipoLocal.value?.idEquipo)
