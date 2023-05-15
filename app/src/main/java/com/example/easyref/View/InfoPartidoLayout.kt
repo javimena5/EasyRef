@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -57,6 +58,7 @@ class InfoPartidoLayout : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+        (activity as AppCompatActivity).supportActionBar?.hide()
         var listaJugadores = listOf<JugadorEntity>()
         CoroutineScope(Dispatchers.IO).launch {
             listaJugadores = EasyRefController.getJugadores()

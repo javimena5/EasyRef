@@ -1,15 +1,13 @@
 package com.example.easyref.View
 
 import android.content.pm.ActivityInfo
-import android.graphics.Color
+import android.graphics.Color.rgb
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.easyref.Modelo.ArbitroEntity
@@ -23,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DatosJugadorFragment : Fragment() {
+class DatosVisorJugadorFragment : Fragment() {
     private val datosViewModel : PasarDatosViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,18 +31,15 @@ class DatosJugadorFragment : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+
         RetrofitController.crearRetrofit()
         var dorsalAdd : Int = 0
         val equipoActual : EquipoEntity = datosViewModel.getEquipoSeleccionado.value!!
         var listaDorsalesDB : MutableList<Int> = mutableListOf()
         var dorsalesUsables : MutableList<Int> = mutableListOf()
-        var view = inflater.inflate(R.layout.datos_jugador_fragment, container, false)
+        var view = inflater.inflate(R.layout.datos_visor_jugadores, container, false)
         var newDorsal = view.findViewById<Spinner>(R.id.dorsalJugador)
-        if ("LOCAL" == datosViewModel.getEquipoCambiar.value){
-            view.findViewById<ImageView>(R.id.fotoJugador).setImageResource(R.drawable.jugador_local_avatar)
-        }else{
-            view.findViewById<ImageView>(R.id.fotoJugador).setImageResource(R.drawable.jugador_visitante_avatar)
-        }
+
         CoroutineScope(Dispatchers.IO).launch {
             listaDorsalesDB = EasyRefController.getDorsales(equipoActual.idEquipo).toMutableList()
 
@@ -61,7 +56,7 @@ class DatosJugadorFragment : Fragment() {
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     dorsalAdd = parent?.getItemAtPosition(position).toString().toInt()
-                    (view!! as TextView).setTextColor(Color.rgb(255, 255, 255))
+                    (view!! as TextView).setTextColor(rgb(255,255,255))
                     newDorsal.setSelection(position)
                 }
 
@@ -84,8 +79,8 @@ class DatosJugadorFragment : Fragment() {
             }
             view.findViewById<EditText>(R.id.nombreJugador).setText("")
             view.findViewById<EditText>(R.id.apellidosJugador).setText("")
-            var navHost = NavHostFragment.findNavController(this@DatosJugadorFragment)
-            navHost.navigate(R.id.action_datosJugadorFragment_to_seleccionJugadoresFragment)
+            var navHost = NavHostFragment.findNavController(this@DatosVisorJugadorFragment)
+            navHost.navigate(R.id.action_datosVisorJugadorFragment_to_visorJugadoresFragment)
         }
         return view
     }
