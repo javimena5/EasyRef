@@ -1,6 +1,7 @@
 package com.example.easyref.Adaptadores
 
 
+import android.graphics.Color.rgb
 import android.widget.TextView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -73,6 +75,11 @@ class SimpleViewHolderJugadores(itemView: View,tipo:String) :
         nombre.setText(dato.nombreJugador.toString())
         apellidos.setText(dato.apellidosJugador.toString())
         dorsal.setText(dato.dorsal.toString())
+        if(dato.esTitular==1){
+            itemView.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(250, 173, 125))
+        }else {
+            itemView.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(255,255,255))
+        }
         /*if(comparar == "LOCAL")
             foto.setImageResource(R.drawable.jugador_local_avatar)
         else

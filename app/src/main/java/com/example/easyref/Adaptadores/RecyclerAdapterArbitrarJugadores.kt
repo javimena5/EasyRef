@@ -63,21 +63,15 @@ class SimpleViewHolderArbitrarJugadores(itemView: View) :
     var nombre: TextView
     var apellidos: TextView
     var dorsal:TextView
-    var expulsado:LinearLayout
 
     fun bind(dato: JugadorEntity) {
         nombre.setText(dato.nombreJugador.toString())
         apellidos.setText(dato.apellidosJugador.toString())
         dorsal.setText(dato.dorsal.toString())
-        if(dato.expulsado==1)
-            expulsado.setBackgroundColor(rgb(255,0,0))
-        else
-            expulsado.setBackgroundColor(rgb(255,255,255))
     }
     init {
         nombre = itemView.findViewById(R.id.nombreJugador)
         apellidos = itemView.findViewById(R.id.apellidosJugador)
         dorsal = itemView.findViewById(R.id.dorsalJugador)
-        expulsado = itemView.findViewById(R.id.expulsado)
     }
 }
