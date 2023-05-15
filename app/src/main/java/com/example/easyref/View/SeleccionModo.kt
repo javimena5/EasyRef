@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -23,10 +24,12 @@ class SeleccionModo : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+        (activity as AppCompatActivity).supportActionBar?.title = "Modos"
         var view = inflater.inflate(R.layout.seleccion_modo_layout, container, false)
         view.findViewById<Button>(R.id.f7).setOnClickListener {
+            datosViewModel.setTipoPartido("7")
             var navHost = NavHostFragment.findNavController(this@SeleccionModo)
-            navHost.navigate(R.id.action_seleccionModo_to_seleccionTipoF7)
+            navHost.navigate(R.id.action_seleccionModo_to_seleccionEquiposFragment)
         }
         view.findViewById<Button>(R.id.f11).setOnClickListener {
             datosViewModel.setTipoPartido("11")
