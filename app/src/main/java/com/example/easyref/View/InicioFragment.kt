@@ -33,7 +33,8 @@ class InicioFragment : Fragment() {
 
         view.findViewById<Button>(R.id.modoRapido).setOnClickListener{
             var navHost = NavHostFragment.findNavController(this@InicioFragment)
-            //(activity as AppCompatActivity).supportActionBar?.show()
+            navHost.navigate(R.id.action_inicioFragment_to_infoRapidoLayout)
+            (activity as AppCompatActivity).supportActionBar?.show()
         }
 
         view.findViewById<Button>(R.id.editorEquipos).setOnClickListener{

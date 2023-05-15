@@ -15,6 +15,9 @@
             android:id="@+id/action_inicioFragment_to_editorEquiposFragment"
             app:destination="@id/editorEquiposFragment"
             app:popUpTo="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_inicioFragment_to_infoRapidoLayout"
+            app:destination="@id/infoRapidoLayout" />
     </fragment>
     <fragment
         android:id="@+id/datosArbitroFragment"
@@ -160,5 +163,35 @@
         <action
             android:id="@+id/action_datosVisorEquipoFragment_to_visorJugadoresFragment"
             app:destination="@id/visorJugadoresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoRapidoLayout"
+        android:name="com.example.easyref.View.InfoRapidoLayout"
+        android:label="InfoRapidoLayout" >
+        <action
+            android:id="@+id/action_infoRapidoLayout_to_arbitrarRapidoLayout"
+            app:destination="@id/arbitrarRapidoLayout" />
+    </fragment>
+    <fragment
+        android:id="@+id/arbitrarRapidoLayout"
+        android:name="com.example.easyref.View.ArbitrarRapidoLayout"
+        android:label="ArbitrarRapidoLayout" >
+        <action
+            android:id="@+id/action_arbitrarRapidoLayout_to_infoSimpleLayout"
+            app:destination="@id/infoSimpleLayout" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoSimpleLayout"
+        android:name="com.example.easyref.View.InfoSimpleLayout"
+        android:label="InfoSimpleLayout" >
+        <action
+            android:id="@+id/action_infoSimpleLayout_to_infoRapidoLayout"
+            app:destination="@id/infoRapidoLayout" />
+        <action
+            android:id="@+id/action_infoSimpleLayout_to_arbitrarRapidoLayout"
+            app:destination="@id/arbitrarRapidoLayout" />
+        <action
+            android:id="@+id/action_infoSimpleLayout_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
     </fragment>
 </navigation>
