@@ -47,6 +47,11 @@ class PasarDatosViewModel : ViewModel() {
         arbitroActual.value = arbitro
     }
 
+    var getEquipoSeleccionado = equipoSeleccionado
+    fun setEquipoSeleccionado(seleccionado: EquipoEntity){
+        equipoSeleccionado.value = seleccionado
+    }
+
     var getEquipoVisitante = equipoVisitante
     fun setEquipoVisitante(visitante: EquipoEntity){
         equipoVisitante.value = visitante
@@ -57,7 +62,6 @@ class PasarDatosViewModel : ViewModel() {
         equipoLocal.value = local
     }
 
-    var getEquipoSeleccionado = equipoSeleccionado
 
     var getEquipoCambiar = equipoCambiar
     fun setEquipoCambiar(cambiar: String){
