@@ -9,11 +9,12 @@
         android:name="com.example.easyref.View.InicioFragment"
         android:label="InicioFragment" >
         <action
-            android:id="@+id/action_inicioFragment_to_modoVarFragment"
-            app:destination="@id/modoVarFragment" />
-        <action
             android:id="@+id/action_inicioFragment_to_listaArbitrosFragment"
             app:destination="@id/listaArbitrosFragment" />
+        <action
+            android:id="@+id/action_inicioFragment_to_editorEquiposFragment"
+            app:destination="@id/editorEquiposFragment"
+            app:popUpTo="@id/inicioFragment" />
     </fragment>
     <fragment
         android:id="@+id/datosArbitroFragment"
@@ -21,14 +22,6 @@
         android:label="DatosArbitroFragment" >
         <action
             android:id="@+id/action_datosArbitroFragment_to_listaArbitrosFragment"
-            app:destination="@id/listaArbitrosFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/modoVarFragment"
-        android:name="com.example.easyref.View.ModoVarFragment"
-        android:label="ModoVarFragment" >
-        <action
-            android:id="@+id/action_modoVarFragment_to_listaArbitrosFragment"
             app:destination="@id/listaArbitrosFragment" />
     </fragment>
     <fragment
@@ -47,18 +40,7 @@
         android:name="com.example.easyref.View.SeleccionModo"
         android:label="SeleccionModo" >
         <action
-            android:id="@+id/action_seleccionModo_to_seleccionTipoF7"
-            app:destination="@id/seleccionTipoF7" />
-        <action
             android:id="@+id/action_seleccionModo_to_seleccionEquiposFragment"
-            app:destination="@id/seleccionEquiposFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/seleccionTipoF7"
-        android:name="com.example.easyref.View.SeleccionTipoF7"
-        android:label="SeleccionTipoF7" >
-        <action
-            android:id="@+id/action_seleccionTipoF7_to_seleccionEquiposFragment"
             app:destination="@id/seleccionEquiposFragment" />
     </fragment>
     <fragment
@@ -67,10 +49,14 @@
         android:label="ListaEquiposFragment" >
         <action
             android:id="@+id/action_listaEquiposFragment_to_datosEquipoFragment"
-            app:destination="@id/datosEquipoFragment" />
+            app:destination="@id/datosEquipoFragment"
+            app:popUpTo="@id/seleccionEquiposFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_listaEquiposFragment_to_seleccionEquiposFragment"
-            app:destination="@id/seleccionEquiposFragment" />
+            app:destination="@id/seleccionEquiposFragment"
+            app:popUpTo="@id/seleccionEquiposFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/datosEquipoFragment"
@@ -78,7 +64,9 @@
         android:label="DatosEquipoFragment" >
         <action
             android:id="@+id/action_datosEquipoFragment_to_listaEquiposFragment"
-            app:destination="@id/listaEquiposFragment" />
+            app:destination="@id/listaEquiposFragment"
+            app:popUpTo="@id/seleccionEquiposFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/seleccionEquiposFragment"
@@ -86,10 +74,15 @@
         android:label="SeleccionEquiposFragment" >
         <action
             android:id="@+id/action_seleccionEquiposFragment_to_listaEquiposFragment"
-            app:destination="@id/listaEquiposFragment" />
+            app:destination="@id/listaEquiposFragment"
+            app:popUpTo="@id/seleccionModo" />
         <action
             android:id="@+id/action_seleccionEquiposFragment_to_seleccionJugadoresFragment"
-            app:destination="@id/seleccionJugadoresFragment" />
+            app:destination="@id/seleccionJugadoresFragment"
+            app:popUpTo="@id/seleccionEquiposFragment" />
+        <action
+            android:id="@+id/action_seleccionEquiposFragment_to_seleccionModo"
+            app:destination="@id/seleccionModo" />
     </fragment>
     <fragment
         android:id="@+id/seleccionJugadoresFragment"
@@ -100,7 +93,8 @@
             app:destination="@id/datosJugadorFragment" />
         <action
             android:id="@+id/action_seleccionJugadoresFragment_to_arbitrarPartidoLayout"
-            app:destination="@id/arbitrarPartidoLayout" />
+            app:destination="@id/arbitrarPartidoLayout"
+            app:popUpTo="@id/seleccionEquiposFragment" />
     </fragment>
     <fragment
         android:id="@+id/datosJugadorFragment"
@@ -125,5 +119,46 @@
         <action
             android:id="@+id/action_infoPartidoLayout_to_seleccionModo"
             app:destination="@id/seleccionModo" />
+    </fragment>
+    <fragment
+        android:id="@+id/editorEquiposFragment"
+        android:name="com.example.easyref.View.EditorEquiposFragment"
+        android:label="EditorEquiposFragment" >
+        <action
+            android:id="@+id/action_editorEquiposFragment_to_visorJugadoresFragment"
+            app:destination="@id/visorJugadoresFragment" />
+        <action
+            android:id="@+id/action_editorEquiposFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_editorEquiposFragment_to_datosVisorEquipoFragment"
+            app:destination="@id/datosVisorEquipoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/visorJugadoresFragment"
+        android:name="com.example.easyref.View.VisorJugadoresFragment"
+        android:label="VisorJugadoresFragment" >
+        <action
+            android:id="@+id/action_visorJugadoresFragment_to_editorEquiposFragment"
+            app:destination="@id/editorEquiposFragment" />
+        <action
+            android:id="@+id/action_visorJugadoresFragment_to_datosVisorJugadorFragment"
+            app:destination="@id/datosVisorJugadorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/datosVisorJugadorFragment"
+        android:name="com.example.easyref.View.DatosVisorJugadorFragment"
+        android:label="DatosVisorJugadorFragment" >
+        <action
+            android:id="@+id/action_datosVisorJugadorFragment_to_visorJugadoresFragment"
+            app:destination="@id/visorJugadoresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/datosVisorEquipoFragment"
+        android:name="com.example.easyref.View.DatosVisorEquipoFragment"
+        android:label="DatosVisorEquipoFragment" >
+        <action
+            android:id="@+id/action_datosVisorEquipoFragment_to_visorJugadoresFragment"
+            app:destination="@id/visorJugadoresFragment" />
     </fragment>
 </navigation>

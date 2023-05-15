@@ -92,6 +92,65 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="datosVisorEquipoFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="734" />
+                            <option name="y" value="300" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="datosVisorJugadorFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="938" />
+                            <option name="y" value="708" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_datosVisorJugadorFragment_to_visorJugadoresFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="editorEquiposFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="352" />
+                            <option name="y" value="298" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_editorEquiposFragment_to_inicioFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_editorEquiposFragment_to_visorJugadoresFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="infoPartidoLayout">
                     <value>
                       <LayoutPositions>
@@ -100,6 +159,15 @@
                             <option name="x" value="2423" />
                             <option name="y" value="-118" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_infoPartidoLayout_to_seleccionModo">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -115,12 +183,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_inicioFragment_to_listaArbitrosFragment">
+                            <entry key="action_inicioFragment_to_editorEquiposFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_inicioFragment_to_modoVarFragment">
+                            <entry key="action_inicioFragment_to_listaArbitrosFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -182,27 +250,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="modoVarFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="34" />
-                            <option name="y" value="-475" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_modoVarFragment_to_listaArbitrosFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="seleccionEquiposFragment">
                     <value>
                       <LayoutPositions>
@@ -220,6 +267,11 @@
                               </value>
                             </entry>
                             <entry key="action_seleccionEquiposFragment_to_seleccionJugadoresFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_seleccionEquiposFragment_to_seleccionModo">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -271,28 +323,28 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_seleccionModo_to_seleccionTipoF7">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="seleccionTipoF7">
+                  <entry key="visorJugadoresFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="889" />
-                            <option name="y" value="210" />
+                            <option name="x" value="580" />
+                            <option name="y" value="710" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_seleccionTipoF7_to_seleccionEquiposFragment">
+                            <entry key="action_visorJugadoresFragment_to_datosVisorJugadorFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_visorJugadoresFragment_to_editorEquiposFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
