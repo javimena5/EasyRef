@@ -138,6 +138,9 @@
             android:id="@+id/action_editorEquiposFragment_to_datosVisorEquipoFragment"
             app:destination="@id/datosVisorEquipoFragment"
             app:popUpTo="@id/editorEquiposFragment" />
+        <action
+            android:id="@+id/action_editorEquiposFragment_to_listaLaligaFragment"
+            app:destination="@id/listaLaligaFragment" />
     </fragment>
     <fragment
         android:id="@+id/visorJugadoresFragment"
@@ -200,4 +203,8 @@
             android:id="@+id/action_infoSimpleLayout_to_inicioFragment"
             app:destination="@id/inicioFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/listaLaligaFragment"
+        android:name="com.example.easyref.View.ListaLaligaFragment"
+        android:label="ListaLaligaFragment" />
 </navigation>

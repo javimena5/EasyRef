@@ -53,6 +53,7 @@ class SeleccionJugadoresFragment : Fragment() {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         (activity as AppCompatActivity).supportActionBar?.title = "Selección de titulares"
+
         var view = inflater.inflate(R.layout.seleccion_titulares_layout, container, false)
         recyclerLocales = view.findViewById(R.id.recyclerLocales)
         recyclerVisitantes = view.findViewById(R.id.recyclerVisitantes)
@@ -63,8 +64,8 @@ class SeleccionJugadoresFragment : Fragment() {
         //RetrofitController.crearRetrofit()
 
         CoroutineScope(Dispatchers.IO).launch {
+            EasyRefController.updateTitulares()
             listaLocales = EasyRefController.getJugadores(datosViewModel.getEquipoLocal.value?.idEquipo)
-
             listaVisitantes = EasyRefController.getJugadores(datosViewModel.getEquipoVisitante.value?.idEquipo)
 
             withContext(Dispatchers.Main) {
@@ -164,7 +165,7 @@ class SeleccionJugadoresFragment : Fragment() {
 
 
                 if(listaIdTitularesVisitantes.contains(jugador.idJugador)){
-                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(255, 255, 255))
+                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(93, 93, 106))
                     contadorVisitantes--
 
 
@@ -174,7 +175,7 @@ class SeleccionJugadoresFragment : Fragment() {
                     }
                 }else {
                     contadorVisitantes++
-                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(getResources().getColor(R.color.naranja_suave))
+                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(250, 173, 125))
                     var jugador = listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!))
                     jugador.esTitular = 1
                     CoroutineScope(Dispatchers.IO).launch {

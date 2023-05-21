@@ -1,57 +1,45 @@
 package com.example.easyref.ViewModel
 
 import android.app.Application
+import android.telecom.Call
+import android.util.Log
+import android.widget.Toast
 import androidx.room.Room
 import com.example.easyref.DataBase.EasyRefDatabase
+import com.example.easyref.DataBase.ProveedorBD
 import com.example.easyref.Modelo.ArbitroEntity
 import com.example.easyref.Modelo.EquipoEntity
+import com.example.easyref.Modelo.JugadorAPI
 import com.example.easyref.Modelo.JugadorEntity
+import com.example.easyref.ViewModel.RetrofitController.crearRetrofit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 object EasyRefController {
     private lateinit var db: EasyRefDatabase
 
     fun iniciarDB(aplicacion: Application){
+
         db= Room.databaseBuilder(
             aplicacion,
             EasyRefDatabase::class.java, "easyref"
         ).fallbackToDestructiveMigration()
-        .build()
+            .build()
 
+
+    }
+
+    fun updateTitulares(){
         CoroutineScope(Dispatchers.IO).launch {
-            if(getArbitros().isEmpty()){
-                InicializarData.listaArbitros().forEach {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        insertArbitro(it)
-                    }
-                }
+            for (jug in getJugadores()) {
+                var jugadorUpdate = jug
+                jugadorUpdate.esTitular = 0
+                jugadorUpdate.expulsado = 0
+                updateJugador(jugadorUpdate)
             }
-
-            if(getEquipos().isEmpty()){
-                InicializarData.listaEquipos().forEach {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        insertEquipo(it)
-                    }
-                }
-            }
-
-            if(getJugadores().isEmpty()){
-                InicializarData.listaJugadores().forEach {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        insertJugador(it)
-                    }
-                }
-            }
-            var listaJugadores = db.jugadorDao().getJugadores()
-
-            for(jug in listaJugadores){
-                jug.esTitular=0
-                jug.expulsado=0
-                db.jugadorDao().update(jug)
-            }
-
         }
     }
     suspend fun deleteArbitro(arbitro: ArbitroEntity)=db.arbitroDao().delete(arbitro)

@@ -7,6 +7,7 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="5dp"
     app:cardElevation="2dp"
+    android:backgroundTint="@color/gris"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center">
             <TextView
+                android:textColor="@color/white"
                 android:id="@+id/NombreEquipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

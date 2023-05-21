@@ -37,6 +37,9 @@ class SeleccionEquiposFragment : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+        CoroutineScope(Dispatchers.IO).launch {
+            EasyRefController.updateTitulares()
+        }
         (activity as AppCompatActivity).supportActionBar?.title = "Selección de equipos"
         var view = inflater.inflate(R.layout.seleccion_equipos_fragment, container, false)
 
@@ -44,7 +47,7 @@ class SeleccionEquiposFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.nombreVisitante).text = datosViewModel.getEquipoVisitante.value?.nombreEquipo
         if(!(datosViewModel.getEquipoLocal.value == null)) {
-            var escudoLocal = datosViewModel.getEquipoLocal.value?.escudoEquipo
+            val escudoLocal = datosViewModel.getEquipoLocal.value?.escudoEquipo
             if (!escudoLocal.equals("") || !escudoLocal!!.isEmpty())
                 Picasso.with(requireContext())
                     .load(datosViewModel.getEquipoLocal.value?.escudoEquipo)
@@ -70,7 +73,9 @@ class SeleccionEquiposFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.siguiente).setOnClickListener {
-            if(datosViewModel.getEquipoLocal.value!!.idEquipo.equals(datosViewModel.getEquipoVisitante.value!!.idEquipo))
+            if(view.findViewById<TextView>(R.id.nombreLocal).text == "LOCAL" || view.findViewById<TextView>(R.id.nombreVisitante).text == "VISITANTE")
+                Toast.makeText(requireActivity(), "Seleccione 2 equipos.", Toast.LENGTH_SHORT).show()
+            else if(datosViewModel.getEquipoLocal.value!!.idEquipo.equals(datosViewModel.getEquipoVisitante.value!!.idEquipo))
                 Toast.makeText(requireActivity(), "El LOCAL y el VISITANTE no pueden ser el mismo equipo.", Toast.LENGTH_SHORT).show()
             else{
                 CoroutineScope(Dispatchers.IO).launch {

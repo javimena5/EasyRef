@@ -65,11 +65,12 @@ class SimpleViewHolderArbitros(itemView: View) :
     fun bind(dato: ArbitroEntity) {
         nombre.setText(dato.nombreArbitro.toString())
         apellidos.setText(dato.apellidosArbitro.toString())
-        if (!dato.fotoArbitro.equals("") || !dato.fotoArbitro.isEmpty())
+        if(!dato.fotoArbitro.equals("")){
             Picasso.with(itemView.context)
-                .load(dato.fotoArbitro.toString())
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(itemView.findViewById<ImageView>(R.id.fotoArbitro))
+                .load(dato.fotoArbitro)
+                .into(foto)
+        }else
+            foto.setImageResource(R.drawable.icono_sin)
 
         //foto.setImageResource(R.drawable.arbitro_avatar)
         /*if(dato.fotoArbitro.toString().equals(""))

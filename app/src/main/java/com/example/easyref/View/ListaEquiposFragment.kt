@@ -38,6 +38,7 @@ class ListaEquiposFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.lista_equipos_fragment, container, false)
+        view.findViewById<FloatingActionButton>(R.id.fabLaLiga).visibility = View.INVISIBLE
         (activity as AppCompatActivity).supportActionBar?.title = "Equipos"
         recycler = view.findViewById(R.id.recycler)
         lista = listOf()
@@ -79,6 +80,9 @@ class ListaEquiposFragment : Fragment() {
                                     "Eliminar",
                                     DialogInterface.OnClickListener { dialog, id ->
                                         CoroutineScope(Dispatchers.IO).launch {
+                                            var listaJugadores = EasyRefController.getJugadores(lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo)
+                                            for(jug in listaJugadores)
+                                                EasyRefController.deleteJugador(jug)
                                             EasyRefController.deleteEquipo(
                                                 EasyRefController.getEquipo(
                                                     lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo

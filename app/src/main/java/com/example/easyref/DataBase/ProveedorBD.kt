@@ -1,23 +1,26 @@
 package com.example.easyref.DataBase
 
-import com.example.easyref.Modelo.ArbitroEntity
+import com.example.easyref.Modelo.EquipoEntity
+import com.example.easyref.Modelo.JugadorAPI
+import com.example.easyref.Modelo.JugadorEntity
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
 interface ProveedorBD {
-    @GET("arbitros")
+    @GET("data/jugadores")
     @Headers("Accept: application/json", "Content-Type: application/json")
-    suspend fun arbitros(): Response<List<ArbitroEntity>>
+    suspend fun getJugadoresAPI(): Response<List<JugadorEntity>>
 
-    @GET("arbitros/{id}")
+    @GET("data/jugadores/{idEquipo}")
     @Headers("Accept: application/json", "Content-Type: application/json")
-    suspend fun getArbitro(@Path("id") id: Int): Response<List<ArbitroEntity>>
+    suspend fun getJugadoresByIdEquipoAPI(@Path("idEquipo") id: Int): Response<List<JugadorEntity>>
 
-    @POST("arbitros")
+    @GET("data/equipos")
     @Headers("Accept: application/json", "Content-Type: application/json")
-    suspend fun insertarArbitro(@Body arbitro: ArbitroEntity): Response<RespuestaJson>
+    suspend fun getEquiposAPI(): Response<List<EquipoEntity>>
 
-    @DELETE("arbitros/{id}")
+    @GET("data/equipos/{idEquipo}")
     @Headers("Accept: application/json", "Content-Type: application/json")
-    suspend fun deleteArbitro(@Path("id")id: Int) : Response<RespuestaJson>
+    suspend fun getEquiposByIdAPI(@Path("idEquipo") id: Int): Response<EquipoEntity>
 }

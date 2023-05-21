@@ -334,7 +334,7 @@ class ArbitrarPartidoLayout : Fragment() {
             cronometroIniciado = false
         }
 
-        view.findViewById<Button>(R.id.amarillaJugador).setOnClickListener{
+        view.findViewById<ImageButton>(R.id.amarillaJugador).setOnClickListener{
             coroutineParar.cancel()
             coroutineExtra.cancel()
             coroutinePrimera.cancel()
@@ -351,7 +351,7 @@ class ArbitrarPartidoLayout : Fragment() {
             dialog = dialogBuilder.setCancelable(false).show()
         }
 
-        view.findViewById<Button>(R.id.rojaJugador).setOnClickListener{
+        view.findViewById<ImageButton>(R.id.rojaJugador).setOnClickListener{
             coroutineParar.cancel()
             coroutineExtra.cancel()
             coroutinePrimera.cancel()
@@ -368,7 +368,7 @@ class ArbitrarPartidoLayout : Fragment() {
             dialog = dialogBuilder.setCancelable(false).show()
         }
 
-        view.findViewById<Button>(R.id.golJugador).setOnClickListener{
+        view.findViewById<ImageButton>(R.id.golJugador).setOnClickListener{
             coroutineParar.cancel()
             coroutineExtra.cancel()
             coroutinePrimera.cancel()
@@ -386,7 +386,7 @@ class ArbitrarPartidoLayout : Fragment() {
 
         }
 
-        view.findViewById<Button>(R.id.cambiarJugador).setOnClickListener{
+        view.findViewById<ImageButton>(R.id.cambiarJugador).setOnClickListener{
             coroutineParar.cancel()
             coroutineExtra.cancel()
             coroutinePrimera.cancel()

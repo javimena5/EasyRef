@@ -16,9 +16,10 @@ import com.ejemplos.b10.myapplication.ImagenUtilidad
 import com.example.easyref.Modelo.ArbitroEntity
 import com.example.easyref.Modelo.EquipoEntity
 import com.example.easyref.R
+import com.squareup.picasso.Picasso
 
 
-class RecyclerAdapterEquipos(var c: List<EquipoEntity>) : RecyclerView.Adapter<SimpleViewHolderEquipos>(), OnClickListener, OnLongClickListener{
+class RecyclerAdapterEquipos(var c: List<EquipoEntity>?) : RecyclerView.Adapter<SimpleViewHolderEquipos>(), OnClickListener, OnLongClickListener{
     lateinit var listener: OnClickListener
     lateinit var listenerLargo: OnLongClickListener
     override fun onCreateViewHolder(
@@ -32,11 +33,11 @@ class RecyclerAdapterEquipos(var c: List<EquipoEntity>) : RecyclerView.Adapter<S
         return SimpleViewHolderEquipos(v)
     }
     override fun onBindViewHolder(holder: SimpleViewHolderEquipos, position: Int) {
-        holder.bind(c.get(position))
+        holder.bind(c!!.get(position))
     }
 
     override fun getItemCount(): Int {
-        return c.size
+        return c!!.size
     }
 
     fun onClickListener(listener: OnClickListener)
@@ -67,14 +68,13 @@ class SimpleViewHolderEquipos(itemView: View) :
 
     fun bind(dato: EquipoEntity) {
         nombre.setText(dato.nombreEquipo.toString())
-        foto.setImageResource(R.drawable.icono_sin)
-        /*if(dato.fotoArbitro.toString().equals(""))
-            foto.setImageResource(R.drawable.arbitro_avatar)
-        else {
-            var imagenUtilidad = ImagenUtilidad()
-            foto.context
-            foto = imagenUtilidad.BitmapToImageView(imagenUtilidad.descargaImagenToBitmap(dato.fotoArbitro),foto.context)
-        }*/
+        if(!dato.escudoEquipo.equals("")){
+            Picasso.with(itemView.context)
+                .load(dato.escudoEquipo)
+                .into(foto)
+        }else
+            foto.setImageResource(R.drawable.icono_sin)
+
 
     }
     init {

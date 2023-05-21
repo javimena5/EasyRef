@@ -45,6 +45,7 @@ class DatosJugadorFragment : Fragment() {
         }else{
             view.findViewById<ImageView>(R.id.fotoJugador).setImageResource(R.drawable.jugador_visitante_avatar)
         }
+
         CoroutineScope(Dispatchers.IO).launch {
             listaDorsalesDB = EasyRefController.getDorsales(equipoActual.idEquipo).toMutableList()
 

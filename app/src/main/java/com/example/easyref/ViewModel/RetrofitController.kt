@@ -7,15 +7,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitController {
 
-    lateinit var retrofit : ProveedorBD
-    fun crearRetrofit(){
-        val urlAndroidStudio="http://10.0.2.2:8080/easyref/data/"
-        val urlMovil="http://localhost:8080/easyref/data/"
-        val urlAzure="http://easyref.eastus.cloudapp.azure.com:8080/easyref/data/"
+    fun crearRetrofit(): ProveedorBD{
+        val urlAndroidStudio="http://10.0.2.2:8080/ApiRestEasyRef_Casa/"
+        val urlMovil="http://localhost:8080/ApiRestEasyRef_Casa/"
+        val urlAzure="http://apiref.eastus.cloudapp.azure.com:8080/ApiRestEasyRef/"
         val retrofitBuilder = Retrofit.Builder()
-            .baseUrl(urlAndroidStudio)
+            .baseUrl(urlAzure)
+            //.baseUrl(urlAndroidStudio)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        retrofit = retrofitBuilder.create(ProveedorBD::class.java)
+        return retrofitBuilder.create(ProveedorBD::class.java)
     }
 }

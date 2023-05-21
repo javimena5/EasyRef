@@ -7,11 +7,11 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/escudoEquipo"
@@ -37,6 +37,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="15dp">
+            <TextView
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="URL del escudo"></TextView>
+            <EditText
+                android:textColor="@color/white"
+                android:id="@+id/urlEscudo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,6 +63,6 @@
             android:id="@+id/siguiente"></Button>
 
 
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>
 </LinearLayout>

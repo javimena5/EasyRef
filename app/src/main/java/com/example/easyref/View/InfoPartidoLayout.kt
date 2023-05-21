@@ -152,6 +152,7 @@ class InfoPartidoLayout : Fragment() {
             PdfWriter.getInstance(documento, fileOutputStream)
 
             documento.open()
+
             val bm = BitmapFactory.decodeResource(resources, R.drawable.icono_sin)
             val stream = ByteArrayOutputStream()
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -181,6 +182,7 @@ class InfoPartidoLayout : Fragment() {
             )
             comite.alignment = Element.ALIGN_CENTER
             documento.add(comite)
+
             documento.add(Chunk(LineSeparator()))
 
             val infoActa = Paragraph(
@@ -197,6 +199,7 @@ class InfoPartidoLayout : Fragment() {
             )
 
             documento.add(divisionTitulares)
+
             val tablaTitulares = PdfPTable(2)
 
             tablaTitulares.addCell(Phrase("EQUIPO LOCAL",Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)))
@@ -215,6 +218,7 @@ class InfoPartidoLayout : Fragment() {
             }
 
             documento.add(tablaTitulares)
+
             val divisionSuplentes = Paragraph(
                 "                Jugadores Suplentes\n\n",
                 Font(Font.FontFamily.TIMES_ROMAN,12f,Font.BOLD)

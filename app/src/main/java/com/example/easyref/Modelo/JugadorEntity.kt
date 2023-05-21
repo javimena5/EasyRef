@@ -27,10 +27,13 @@ class JugadorEntity (
     @ColumnInfo(name = "foto_jugador")
     val fotoJugador : String,
     @ColumnInfo(name = "id_equipo")
-    val idEquipo : Int,
+    val numIdEquipo : Int,
     @ColumnInfo(name = "es_titular")
     var esTitular : Int,
     @ColumnInfo(name = "expulsado")
     var expulsado : Int
-)
+){
+    constructor(
+        j: JugadorAPI) : this(j.idJugador,j.nombreJugador,j.apellidosJugador,j.dorsal,j.fotoJugador,j.equipo.idEquipo,j.esTitular,j.expulsado)
+}
 

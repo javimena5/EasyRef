@@ -37,7 +37,7 @@ class EditorEquiposFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Equipos"
+        (activity as AppCompatActivity).supportActionBar?.title = "Editor de equipos"
         //activity?.actionBar!!.setDisplayHomeAsUpEnabled(true)
         var view = inflater.inflate(R.layout.lista_equipos_fragment, container, false)
 
@@ -54,6 +54,10 @@ class EditorEquiposFragment : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             var navHost = NavHostFragment.findNavController(this@EditorEquiposFragment)
             navHost.navigate(R.id.action_editorEquiposFragment_to_datosVisorEquipoFragment)
+        }
+        view.findViewById<FloatingActionButton>(R.id.fabLaLiga).setOnClickListener {
+            var navHost = NavHostFragment.findNavController(this@EditorEquiposFragment)
+            navHost.navigate(R.id.action_editorEquiposFragment_to_listaLaligaFragment)
         }
 
         return view
@@ -81,6 +85,9 @@ class EditorEquiposFragment : Fragment() {
                                         "Eliminar",
                                         DialogInterface.OnClickListener { dialog, id ->
                                             CoroutineScope(Dispatchers.IO).launch {
+                                                var listaJugadores = EasyRefController.getJugadores(lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo)
+                                                for(jug in listaJugadores)
+                                                    EasyRefController.deleteJugador(jug)
                                                 EasyRefController.deleteEquipo(
                                                     EasyRefController.getEquipo(
                                                         lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo

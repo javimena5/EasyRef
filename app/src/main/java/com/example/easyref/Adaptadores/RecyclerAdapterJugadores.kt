@@ -67,6 +67,7 @@ class SimpleViewHolderJugadores(itemView: View,tipo:String) :
 {
     var nombre: TextView
     var apellidos: TextView
+    var seleccionado: ImageView
     //var foto:ImageView
     var dorsal:TextView
     var comparar:String
@@ -76,25 +77,16 @@ class SimpleViewHolderJugadores(itemView: View,tipo:String) :
         apellidos.setText(dato.apellidosJugador.toString())
         dorsal.setText(dato.dorsal.toString())
         if(dato.esTitular==1){
+            seleccionado.visibility = View.VISIBLE
             itemView.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(250, 173, 125))
         }else {
-            itemView.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(255,255,255))
+            seleccionado.visibility = View.INVISIBLE
+            itemView.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(93, 93, 106))
         }
-        /*if(comparar == "LOCAL")
-            foto.setImageResource(R.drawable.jugador_local_avatar)
-        else
-            foto.setImageResource(R.drawable.jugador_visitante_avatar)
-
-        if(dato.fotoArbitro.toString().equals(""))
-            foto.setImageResource(R.drawable.arbitro_avatar)
-        else {
-            var imagenUtilidad = ImagenUtilidad()
-            foto.context
-            foto = imagenUtilidad.BitmapToImageView(imagenUtilidad.descargaImagenToBitmap(dato.fotoArbitro),foto.context)
-        }*/
 
     }
     init {
+        seleccionado = itemView.findViewById(R.id.seleccionado)
         nombre = itemView.findViewById(R.id.nombreJugador)
         apellidos = itemView.findViewById(R.id.apellidosJugador)
         //foto = itemView.findViewById(R.id.fotoJugador)
