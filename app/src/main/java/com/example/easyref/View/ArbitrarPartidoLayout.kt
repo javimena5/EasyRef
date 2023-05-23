@@ -348,7 +348,7 @@ class ArbitrarPartidoLayout : Fragment() {
             partidoEmpezado = false
 
             val dialogBuilder = createEquiposDialogo(minutosSegunda,"amarilla")
-            dialog = dialogBuilder.setCancelable(false).show()
+            dialog = dialogBuilder.setCancelable(true).show()
         }
 
         view.findViewById<ImageButton>(R.id.rojaJugador).setOnClickListener{
@@ -365,7 +365,7 @@ class ArbitrarPartidoLayout : Fragment() {
             partidoEmpezado = false
 
             val dialogBuilder = createEquiposDialogo(minutosSegunda,"roja")
-            dialog = dialogBuilder.setCancelable(false).show()
+            dialog = dialogBuilder.setCancelable(true).show()
         }
 
         view.findViewById<ImageButton>(R.id.golJugador).setOnClickListener{
@@ -382,7 +382,7 @@ class ArbitrarPartidoLayout : Fragment() {
             partidoEmpezado = false
 
             val dialogBuilder = createEquiposDialogo(minutosSegunda,"gol")
-            dialog = dialogBuilder.setCancelable(false).show()
+            dialog = dialogBuilder.setCancelable(true).show()
 
         }
 
@@ -400,7 +400,7 @@ class ArbitrarPartidoLayout : Fragment() {
             partidoEmpezado = false
 
             val dialogBuilder = createEquiposDialogo(minutosSegunda,"cambio")
-            dialog = dialogBuilder.setCancelable(false).show()
+            dialog = dialogBuilder.setCancelable(true).show()
         }
 
         return view
