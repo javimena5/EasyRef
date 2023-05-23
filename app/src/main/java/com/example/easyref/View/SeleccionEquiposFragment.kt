@@ -41,6 +41,9 @@ class SeleccionEquiposFragment : Fragment() {
             EasyRefController.updateTitulares()
         }
         (activity as AppCompatActivity).supportActionBar?.title = "Selección de equipos"
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         var view = inflater.inflate(R.layout.seleccion_equipos_fragment, container, false)
 
         view.findViewById<TextView>(R.id.nombreLocal).text = datosViewModel.getEquipoLocal.value?.nombreEquipo

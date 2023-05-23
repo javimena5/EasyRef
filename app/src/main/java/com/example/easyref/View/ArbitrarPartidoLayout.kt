@@ -66,7 +66,9 @@ class ArbitrarPartidoLayout : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.hide()
-
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         var listaIdLocales : List<Int> = listOf<Int>()
         var listaIdVisitantes : List<Int> = listOf<Int>()
         var listaIdTitularesLocalesDB : List<Int> = listOf<Int>()
@@ -492,6 +494,11 @@ class ArbitrarPartidoLayout : Fragment() {
     fun cargarAdapter(tipo:String,minutosSegunda: Int,suceso: String){
         var salir:Boolean = true
         adaptador = RecyclerAdapterArbitrarJugadores(jugadoresMostrar) // la lista esta vacia pero no sale
+        adaptador.onLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(v: View?): Boolean {
+                return true
+            }
+        })
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
                 seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
@@ -660,6 +667,7 @@ class ArbitrarPartidoLayout : Fragment() {
         }
 
         adaptador = RecyclerAdapterArbitrarJugadores(jugadoresMostrar)
+
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
                 seleccionado = jugadoresMostrar.get(recycler.getChildAdapterPosition(v!!))
@@ -691,6 +699,12 @@ class ArbitrarPartidoLayout : Fragment() {
                     EasyRefController.updateJugador(jugadorEntra!!)
                 }
                 dialog?.dismiss()
+            }
+        })
+
+        adaptador.onLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(v: View?): Boolean {
+                return true
             }
         })
         adaptador.notifyDataSetChanged()

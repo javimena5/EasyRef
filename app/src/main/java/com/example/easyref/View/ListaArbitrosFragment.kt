@@ -38,6 +38,9 @@ class ListaArbitrosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.title = "ÁRBITROS"
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         var view = inflater.inflate(R.layout.lista_arbitros_fragment, container, false)
         recycler = view.findViewById(R.id.recycler)
         lista = listOf()
@@ -60,42 +63,22 @@ class ListaArbitrosFragment : Fragment() {
         adaptador = RecyclerAdapterArbitros(lista)
        adaptador.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                val popupMenu = PopupMenu(requireContext(),v)
-                popupMenu.inflate(R.menu.lista_popup_menu)
+                AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
+                        lista.get(recycler.getChildAdapterPosition(v!!)).nombreArbitro+" "+
+                        lista.get(recycler.getChildAdapterPosition(v!!)).apellidosArbitro+"?")
+                    .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
+                            dialog, id -> CoroutineScope(Dispatchers.IO).launch {
+                        EasyRefController.deleteArbitro(EasyRefController.getArbitro(lista.get(recycler.getChildAdapterPosition(v!!)).idArbitro))
 
-                popupMenu.setOnMenuItemClickListener(PopupMenu.
-                OnMenuItemClickListener
-                { item: MenuItem? ->
-                    when (item!!.itemId) {
-                        R.id.eliminar -> {
-                            AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
-                                    lista.get(recycler.getChildAdapterPosition(v!!)).nombreArbitro+" "+
-                                    lista.get(recycler.getChildAdapterPosition(v!!)).apellidosArbitro+"?")
-                                .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
-                        dialog, id -> CoroutineScope(Dispatchers.IO).launch {
-                    EasyRefController.deleteArbitro(EasyRefController.getArbitro(lista.get(recycler.getChildAdapterPosition(v!!)).idArbitro))
-                    //RetrofitController.retrofit.deleteArbitro(lista.get(recycler.getChildAdapterPosition(v!!)).idArbitro)
-                    //lista = RetrofitController.retrofit.arbitros().body()!!
-
-                    lista = EasyRefController.getArbitros()
-                    withContext(Dispatchers.Main){
-                        cargarAdapter(view)
+                        lista = EasyRefController.getArbitros()
+                        withContext(Dispatchers.Main){
+                            cargarAdapter(view)
+                        }
                     }
-                }
-                })
-                .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.cancel()
-                }).show()
-            }
-           R.id.editar-> {
-               Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT)
-                   .show()
-           }
-       }
-           true
-    })
-                popupMenu.show()
-
+                    })
+                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
+                            dialog, id -> dialog.cancel()
+                    }).show()
                 return true
             }
         })

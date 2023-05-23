@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -39,6 +40,9 @@ class VisorJugadoresFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         var view = inflater.inflate(R.layout.visor_jugadores, container, false)
 
 
@@ -66,50 +70,32 @@ class VisorJugadoresFragment : Fragment() {
         adaptador = RecyclerAdapterArbitrarJugadores(lista)
         adaptador.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                val popupMenu = PopupMenu(requireContext(),v)
-                popupMenu.inflate(R.menu.lista_popup_menu)
-
-                popupMenu.setOnMenuItemClickListener(
-                    PopupMenu.
-                    OnMenuItemClickListener
-                    { item: MenuItem? ->
-                        when (item!!.itemId) {
-                            R.id.eliminar -> {
-                                AlertDialog.Builder(requireContext()).setMessage(
-                                    "¿Eliminar " +
-                                            lista.get(recycler.getChildAdapterPosition(v!!)).nombreJugador + " " +
-                                            lista.get(recycler.getChildAdapterPosition(v!!)).apellidosJugador + "?"
+                AlertDialog.Builder(requireContext()).setMessage(
+                    "¿Eliminar " +
+                            lista.get(recycler.getChildAdapterPosition(v!!)).nombreJugador + " " +
+                            lista.get(recycler.getChildAdapterPosition(v!!)).apellidosJugador + "?"
+                )
+                    .setPositiveButton(
+                        "Eliminar",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            CoroutineScope(Dispatchers.IO).launch {
+                                EasyRefController.deleteJugador(
+                                    EasyRefController.getJugador(
+                                        lista.get(recycler.getChildAdapterPosition(v!!)).idJugador
+                                    )
                                 )
-                                    .setPositiveButton(
-                                        "Eliminar",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                            CoroutineScope(Dispatchers.IO).launch {
-                                                EasyRefController.deleteJugador(
-                                                    EasyRefController.getJugador(
-                                                        lista.get(recycler.getChildAdapterPosition(v!!)).idJugador
-                                                    )
-                                                )
 
-                                                lista = EasyRefController.getJugadores(datosViewModel.getEquipoSeleccionado.value!!.idEquipo)
-                                                withContext(Dispatchers.Main) {
-                                                    cargarAdapter()
-                                                }
-                                            }
-                                        })
-                                    .setNegativeButton(
-                                        "Cancelar",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                            dialog.cancel()
-                                        }).show()
+                                lista = EasyRefController.getJugadores(datosViewModel.getEquipoSeleccionado.value!!.idEquipo)
+                                withContext(Dispatchers.Main) {
+                                    cargarAdapter()
+                                }
                             }
-                            R.id.editar -> {
-                                Toast.makeText(requireContext(), lista.get(recycler.getChildAdapterPosition(v!!)).nombreJugador+" Editar", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                        true
-                    })
-                popupMenu.show()
+                        })
+                    .setNegativeButton(
+                        "Cancelar",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            dialog.cancel()
+                        }).show()
 
                 return true
             }

@@ -54,6 +54,9 @@ class SeleccionJugadoresFragment : Fragment() {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         (activity as AppCompatActivity).supportActionBar?.title = "Selección de titulares"
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
 
         var view = inflater.inflate(R.layout.seleccion_titulares_layout, container, false)
         recyclerLocales = view.findViewById(R.id.recyclerLocales)
@@ -106,43 +109,25 @@ class SeleccionJugadoresFragment : Fragment() {
         adaptadorVisitantes = RecyclerAdapterJugadores(listaVisitantes,"VISITANTE")
         adaptadorVisitantes.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                val popupMenu = PopupMenu(requireContext(),v)
-                popupMenu.inflate(R.menu.lista_popup_menu)
+                AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
+                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).nombreJugador+" "+
+                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).apellidosJugador+"?")
+                    .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
+                            dialog, id ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            EasyRefController.deleteJugador(EasyRefController.getJugador(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador))
 
-                popupMenu.setOnMenuItemClickListener(
-                    PopupMenu.
-                    OnMenuItemClickListener
-                    { item: MenuItem? ->
-                        when (item!!.itemId) {
-                            R.id.eliminar -> {
-                                AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
-                                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).nombreJugador+" "+
-                                        listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).apellidosJugador+"?")
-                                    .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
-                                            dialog, id ->
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            EasyRefController.deleteJugador(EasyRefController.getJugador(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador))
+                            listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
 
-                                            listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
-
-                                            adaptadorVisitantes.notifyDataSetChanged()
-                                            withContext(Dispatchers.Main){
-                                                cargarAdapterVisitantes()
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
-                                            dialog, id -> dialog.cancel()
-                                    }).show()
-                            }
-                            R.id.editar-> {
-                                Toast.makeText(requireContext(),item.title,Toast.LENGTH_SHORT)
-                                    .show()
+                            adaptadorVisitantes.notifyDataSetChanged()
+                            withContext(Dispatchers.Main){
+                                cargarAdapterVisitantes()
                             }
                         }
-                        true
                     })
-                popupMenu.show()
+                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
+                            dialog, id -> dialog.cancel()
+                    }).show()
                 return true
             }
         })
@@ -190,44 +175,25 @@ class SeleccionJugadoresFragment : Fragment() {
         var equipoLocal:EquipoEntity = datosViewModel.getEquipoLocal.value!!
         adaptadorLocales = RecyclerAdapterJugadores(listaLocales,"VISITANTE")
         adaptadorLocales.onLongClickListener(object : View.OnLongClickListener {
-            override fun onLongClick(v: View?): Boolean {
-                val popupMenu = PopupMenu(requireContext(),v)
-                popupMenu.inflate(R.menu.lista_popup_menu)
+            override fun onLongClick(v: View?): Boolean {AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
+                    listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).nombreJugador+" "+
+                    listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).apellidosJugador+"?")
+                .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
+                        dialog, id ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        EasyRefController.deleteJugador(EasyRefController.getJugador(listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).idJugador))
 
-                popupMenu.setOnMenuItemClickListener(
-                    PopupMenu.
-                    OnMenuItemClickListener
-                    { item: MenuItem? ->
-                        when (item!!.itemId) {
-                            R.id.eliminar -> {
-                                AlertDialog.Builder(requireContext()).setMessage("¿Eliminar "+
-                                        listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).nombreJugador+" "+
-                                        listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).apellidosJugador+"?")
-                                    .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
-                                            dialog, id ->
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            EasyRefController.deleteJugador(EasyRefController.getJugador(listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).idJugador))
+                        listaLocales = EasyRefController.getJugadores(equipoLocal.idEquipo)
 
-                                            listaLocales = EasyRefController.getJugadores(equipoLocal.idEquipo)
-
-                                            adaptadorLocales.notifyDataSetChanged()
-                                            withContext(Dispatchers.Main){
-                                                cargarAdapterLocales()
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
-                                            dialog, id -> dialog.cancel()
-                                    }).show()
-                            }
-                            R.id.editar-> {
-                                Toast.makeText(requireContext(),item.title,Toast.LENGTH_SHORT)
-                                    .show()
-                            }
+                        adaptadorLocales.notifyDataSetChanged()
+                        withContext(Dispatchers.Main){
+                            cargarAdapterLocales()
                         }
-                        true
-                    })
-                popupMenu.show()
+                    }
+                })
+                .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.cancel()
+                }).show()
                 return true
             }
         })

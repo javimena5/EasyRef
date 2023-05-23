@@ -33,6 +33,9 @@ class DatosJugadorFragment : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         RetrofitController.crearRetrofit()
         var dorsalAdd : Int = 0
         val equipoActual : EquipoEntity = datosViewModel.getEquipoSeleccionado.value!!

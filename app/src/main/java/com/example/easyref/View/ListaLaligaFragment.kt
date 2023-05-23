@@ -43,6 +43,9 @@ class ListaLaligaFragment : Fragment() {
     ): View? {
         var view = inflater.inflate(R.layout.lista_laliga, container, false)
         (activity as AppCompatActivity).supportActionBar?.title = "LA LIGA"
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         recycler = view.findViewById(R.id.recycler)
         cargarAdapter()
         //RetrofitController.crearRetrofit()

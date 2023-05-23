@@ -50,6 +50,9 @@ class ArbitrarRapidoLayout : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
 
         // fuera del oncreateview se bloquea
         var duracionParte = datosViewModel.getDuracionParte.value!!

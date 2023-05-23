@@ -21,6 +21,9 @@ class InfoRapidoLayout : Fragment() {
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.show()
         (activity as AppCompatActivity).supportActionBar?.title = "PARTIDO RÁPIDO"
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         var view = inflater.inflate(R.layout.info_rapido_layout, container, false)
 
 

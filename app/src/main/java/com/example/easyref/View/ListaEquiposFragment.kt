@@ -40,6 +40,9 @@ class ListaEquiposFragment : Fragment() {
         var view = inflater.inflate(R.layout.lista_equipos_fragment, container, false)
         view.findViewById<FloatingActionButton>(R.id.fabLaLiga).visibility = View.INVISIBLE
         (activity as AppCompatActivity).supportActionBar?.title = "EQUIPOS"
+        (activity as AppCompatActivity).window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
         recycler = view.findViewById(R.id.recycler)
         lista = listOf()
         cargarAdapter()
@@ -63,52 +66,34 @@ class ListaEquiposFragment : Fragment() {
         adaptador = RecyclerAdapterEquipos(lista)
        adaptador.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                val popupMenu = PopupMenu(requireContext(),v)
-                popupMenu.inflate(R.menu.lista_popup_menu)
+                AlertDialog.Builder(requireContext()).setMessage(
+                    "¿Eliminar " +
+                            lista.get(recycler.getChildAdapterPosition(v!!)).nombreEquipo + "?"
+                )
+                    .setPositiveButton(
+                        "Eliminar",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            CoroutineScope(Dispatchers.IO).launch {
+                                var listaJugadores = EasyRefController.getJugadores(lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo)
+                                for(jug in listaJugadores)
+                                    EasyRefController.deleteJugador(jug)
+                                EasyRefController.deleteEquipo(
+                                    EasyRefController.getEquipo(
+                                        lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo
+                                    )
+                                )
 
-                popupMenu.setOnMenuItemClickListener(
-                    PopupMenu.
-                OnMenuItemClickListener
-                { item: MenuItem? ->
-                    when (item!!.itemId) {
-                        R.id.eliminar -> {
-                            AlertDialog.Builder(requireContext()).setMessage(
-                                "¿Eliminar " +
-                                        lista.get(recycler.getChildAdapterPosition(v!!)).nombreEquipo + "?"
-                            )
-                                .setPositiveButton(
-                                    "Eliminar",
-                                    DialogInterface.OnClickListener { dialog, id ->
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            var listaJugadores = EasyRefController.getJugadores(lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo)
-                                            for(jug in listaJugadores)
-                                                EasyRefController.deleteJugador(jug)
-                                            EasyRefController.deleteEquipo(
-                                                EasyRefController.getEquipo(
-                                                    lista.get(recycler.getChildAdapterPosition(v!!)).idEquipo
-                                                )
-                                            )
-
-                                            lista = EasyRefController.getEquipos()
-                                            withContext(Dispatchers.Main) {
-                                                cargarAdapter()
-                                            }
-                                        }
-                                    })
-                                .setNegativeButton(
-                                    "Cancelar",
-                                    DialogInterface.OnClickListener { dialog, id ->
-                                        dialog.cancel()
-                                    }).show()
-                        }
-                        R.id.editar -> {
-                            Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                    true
-                })
-                popupMenu.show()
+                                lista = EasyRefController.getEquipos()
+                                withContext(Dispatchers.Main) {
+                                    cargarAdapter()
+                                }
+                            }
+                        })
+                    .setNegativeButton(
+                        "Cancelar",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            dialog.cancel()
+                        }).show()
 
                 return true
             }
