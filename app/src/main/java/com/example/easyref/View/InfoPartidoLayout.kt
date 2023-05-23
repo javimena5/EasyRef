@@ -121,6 +121,10 @@ class InfoPartidoLayout : Fragment() {
             var navHost = NavHostFragment.findNavController(this@InfoPartidoLayout)
             navHost.navigate(R.id.action_infoPartidoLayout_to_seleccionModo)
         }
+        view.findViewById<Button>(R.id.inicio).setOnClickListener {
+            var navHost = NavHostFragment.findNavController(this@InfoPartidoLayout)
+            navHost.navigate(R.id.action_infoPartidoLayout_to_inicioFragment)
+        }
 
 
         view.findViewById<Button>(R.id.generaActa).setOnClickListener{

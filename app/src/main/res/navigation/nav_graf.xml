@@ -122,6 +122,9 @@
         <action
             android:id="@+id/action_infoPartidoLayout_to_seleccionModo"
             app:destination="@id/seleccionModo" />
+        <action
+            android:id="@+id/action_infoPartidoLayout_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
     </fragment>
     <fragment
         android:id="@+id/editorEquiposFragment"

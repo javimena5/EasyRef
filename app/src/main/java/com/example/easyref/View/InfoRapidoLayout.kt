@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -36,8 +34,11 @@ class InfoRapidoLayout : Fragment() {
                 datosViewModel.setDuracionParte(duracion/2)
             else
                 datosViewModel.setDuracionParte(duracion)
-            var navHost = NavHostFragment.findNavController(this@InfoRapidoLayout)
-            navHost.navigate(R.id.action_infoRapidoLayout_to_arbitrarRapidoLayout)
+            if(duracion >= 1){
+                var navHost = NavHostFragment.findNavController(this@InfoRapidoLayout)
+                navHost.navigate(R.id.action_infoRapidoLayout_to_arbitrarRapidoLayout)
+            } else
+                Toast.makeText(requireActivity(), "Indique la duración del partido.", Toast.LENGTH_SHORT).show()
         }
         return view
     }

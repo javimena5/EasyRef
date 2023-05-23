@@ -77,17 +77,6 @@ class SeleccionJugadoresFragment : Fragment() {
         view.findViewById<TextView>(R.id.equipoVisitante).setText(datosViewModel.getEquipoVisitante.value!!.nombreEquipo)
         view.findViewById<TextView>(R.id.contadorVisitantes).setText("0/"+datosViewModel.getNumeroJugadores.value)
         view.findViewById<TextView>(R.id.contadorLocales).setText("0/"+datosViewModel.getNumeroJugadores.value)
-        view.findViewById<FloatingActionButton>(R.id.fabVisitantes).setOnClickListener {
-            var navHost = NavHostFragment.findNavController(this@SeleccionJugadoresFragment)
-            datosViewModel.setEquipoCambiar("VISITANTE")
-            navHost.navigate(R.id.action_seleccionJugadoresFragment_to_datosJugadorFragment)
-        }
-
-        view.findViewById<FloatingActionButton>(R.id.fabLocales).setOnClickListener {
-            var navHost = NavHostFragment.findNavController(this@SeleccionJugadoresFragment)
-            datosViewModel.setEquipoCambiar("LOCAL")
-            navHost.navigate(R.id.action_seleccionJugadoresFragment_to_datosJugadorFragment)
-        }
 
         view.findViewById<Button>(R.id.siguiente).setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch {
