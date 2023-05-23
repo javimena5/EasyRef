@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.graphics.Color.rgb
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -102,10 +103,6 @@ class SeleccionJugadoresFragment : Fragment() {
 
     fun cargarAdapterVisitantes(){
         var equipoVisitante:EquipoEntity = datosViewModel.getEquipoVisitante.value!!
-        CoroutineScope(Dispatchers.IO).launch {
-            listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
-            listaIdTitularesVisitantes = EasyRefController.getIdTitulares(equipoVisitante.idEquipo)
-        }
         adaptadorVisitantes = RecyclerAdapterJugadores(listaVisitantes,"VISITANTE")
         adaptadorVisitantes.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
@@ -122,14 +119,17 @@ class SeleccionJugadoresFragment : Fragment() {
                                         listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).nombreJugador+" "+
                                         listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).apellidosJugador+"?")
                                     .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
-                                            dialog, id -> CoroutineScope(Dispatchers.IO).launch {
-                                        EasyRefController.deleteJugador(EasyRefController.getJugador(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador))
+                                            dialog, id ->
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            EasyRefController.deleteJugador(EasyRefController.getJugador(listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!)).idJugador))
 
-                                        listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
-                                        withContext(Dispatchers.Main){
-                                            cargarAdapterVisitantes()
+                                            listaVisitantes = EasyRefController.getJugadores(equipoVisitante.idEquipo)
+
+                                            adaptadorVisitantes.notifyDataSetChanged()
+                                            withContext(Dispatchers.Main){
+                                                cargarAdapterVisitantes()
+                                            }
                                         }
-                                    }
                                     })
                                     .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
                                             dialog, id -> dialog.cancel()
@@ -166,6 +166,7 @@ class SeleccionJugadoresFragment : Fragment() {
                     contadorVisitantes++
                     v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(250, 173, 125))
                     var jugador = listaVisitantes.get(recyclerVisitantes.getChildAdapterPosition(v!!))
+
                     jugador.esTitular = 1
                     CoroutineScope(Dispatchers.IO).launch {
                         EasyRefController.updateJugador(jugador)
@@ -174,7 +175,7 @@ class SeleccionJugadoresFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     listaIdTitularesVisitantes = EasyRefController.getIdTitulares(equipoVisitante.idEquipo)
                     withContext(Dispatchers.Main){
-                        cargarAdapterVisitantes()
+                        adaptadorVisitantes.notifyDataSetChanged()
                     }
                 }
                 view!!.findViewById<TextView>(R.id.contadorVisitantes).setText(contadorVisitantes.toString()+"/"+datosViewModel.getNumeroJugadores.value)
@@ -187,11 +188,7 @@ class SeleccionJugadoresFragment : Fragment() {
 
     fun cargarAdapterLocales(){
         var equipoLocal:EquipoEntity = datosViewModel.getEquipoLocal.value!!
-        CoroutineScope(Dispatchers.IO).launch {
-            listaLocales = EasyRefController.getJugadores(equipoLocal.idEquipo)
-            listaIdTitularesLocales = EasyRefController.getIdTitulares(equipoLocal.idEquipo)
-        }
-        adaptadorLocales = RecyclerAdapterJugadores(listaLocales,"LOCAL")
+        adaptadorLocales = RecyclerAdapterJugadores(listaLocales,"VISITANTE")
         adaptadorLocales.onLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
                 val popupMenu = PopupMenu(requireContext(),v)
@@ -207,21 +204,24 @@ class SeleccionJugadoresFragment : Fragment() {
                                         listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).nombreJugador+" "+
                                         listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).apellidosJugador+"?")
                                     .setPositiveButton("Eliminar", DialogInterface.OnClickListener {
-                                            dialog, id -> CoroutineScope(Dispatchers.IO).launch {
-                                        EasyRefController.deleteJugador(EasyRefController.getJugador(listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).idJugador))
+                                            dialog, id ->
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            EasyRefController.deleteJugador(EasyRefController.getJugador(listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!)).idJugador))
 
-                                        listaLocales = EasyRefController.getJugadores(equipoLocal.idEquipo)
-                                        withContext(Dispatchers.Main){
-                                            cargarAdapterLocales()
+                                            listaLocales = EasyRefController.getJugadores(equipoLocal.idEquipo)
+
+                                            adaptadorLocales.notifyDataSetChanged()
+                                            withContext(Dispatchers.Main){
+                                                cargarAdapterLocales()
+                                            }
                                         }
-                                    }
                                     })
                                     .setNegativeButton("Cancelar", DialogInterface.OnClickListener {
                                             dialog, id -> dialog.cancel()
                                     }).show()
                             }
                             R.id.editar-> {
-                                Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT)
+                                Toast.makeText(requireContext(),item.title,Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
@@ -239,7 +239,7 @@ class SeleccionJugadoresFragment : Fragment() {
 
 
                 if(listaIdTitularesLocales.contains(jugador.idJugador)){
-                    //v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(255, 255, 255))
+                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(93, 93, 106))
                     contadorLocales--
 
 
@@ -249,8 +249,9 @@ class SeleccionJugadoresFragment : Fragment() {
                     }
                 }else {
                     contadorLocales++
-                    //v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(106, 161, 119))
+                    v!!.findViewById<CardView>(R.id.tarjeta).setCardBackgroundColor(rgb(250, 173, 125))
                     var jugador = listaLocales.get(recyclerLocales.getChildAdapterPosition(v!!))
+
                     jugador.esTitular = 1
                     CoroutineScope(Dispatchers.IO).launch {
                         EasyRefController.updateJugador(jugador)
@@ -259,7 +260,7 @@ class SeleccionJugadoresFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     listaIdTitularesLocales = EasyRefController.getIdTitulares(equipoLocal.idEquipo)
                     withContext(Dispatchers.Main){
-                        cargarAdapterLocales()
+                        adaptadorLocales.notifyDataSetChanged()
                     }
                 }
                 view!!.findViewById<TextView>(R.id.contadorLocales).setText(contadorLocales.toString()+"/"+datosViewModel.getNumeroJugadores.value)

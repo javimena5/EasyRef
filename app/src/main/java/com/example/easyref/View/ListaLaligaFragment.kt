@@ -42,7 +42,7 @@ class ListaLaligaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.lista_laliga, container, false)
-        (activity as AppCompatActivity).supportActionBar?.title = "La Liga"
+        (activity as AppCompatActivity).supportActionBar?.title = "LA LIGA"
         recycler = view.findViewById(R.id.recycler)
         cargarAdapter()
         //RetrofitController.crearRetrofit()

@@ -39,7 +39,7 @@ class ListaEquiposFragment : Fragment() {
     ): View? {
         var view = inflater.inflate(R.layout.lista_equipos_fragment, container, false)
         view.findViewById<FloatingActionButton>(R.id.fabLaLiga).visibility = View.INVISIBLE
-        (activity as AppCompatActivity).supportActionBar?.title = "Equipos"
+        (activity as AppCompatActivity).supportActionBar?.title = "EQUIPOS"
         recycler = view.findViewById(R.id.recycler)
         lista = listOf()
         cargarAdapter()

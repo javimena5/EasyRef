@@ -20,7 +20,7 @@ class InfoRapidoLayout : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.show()
-        (activity as AppCompatActivity).supportActionBar?.title = "Partido Rápido"
+        (activity as AppCompatActivity).supportActionBar?.title = "PARTIDO RÁPIDO"
         var view = inflater.inflate(R.layout.info_rapido_layout, container, false)
 
 

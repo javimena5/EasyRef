@@ -24,6 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="17dp"
                 android:textColor="@color/white"
                 android:id="@+id/nombreJugador"
                 android:background="#00000000"
@@ -34,6 +37,9 @@
                 android:layout_margin="2dp" />
 
             <TextView
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="17dp"
                 android:textColor="@color/white"
                 android:id="@+id/apellidosJugador"
                 android:background="#00000000"

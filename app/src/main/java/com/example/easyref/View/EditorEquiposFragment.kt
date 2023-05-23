@@ -37,7 +37,7 @@ class EditorEquiposFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Editor de equipos"
+        (activity as AppCompatActivity).supportActionBar?.title = "EDITOR DE EQUIPOS"
         //activity?.actionBar!!.setDisplayHomeAsUpEnabled(true)
         var view = inflater.inflate(R.layout.lista_equipos_fragment, container, false)
 

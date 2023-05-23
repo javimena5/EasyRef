@@ -9,12 +9,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="-10dp"
-        android:gravity="left|center">
+        android:gravity="left|center"
+        android:elevation="10dp">
         <LinearLayout
             android:background="@drawable/crono_y_borde"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:paddingLeft="140dp"
             android:layout_marginRight="35dp">
             <LinearLayout
@@ -175,29 +178,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:elevation="10dp">
             <ImageButton
+                android:padding="5dp"
+                android:layout_margin="5dp"
                 android:id="@+id/cambiarJugador"
+                android:background="@drawable/roundcorner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/cambio"
                 android:backgroundTint="@color/gris"/>
             <ImageButton
                 android:id="@+id/amarillaJugador"
+                android:padding="5dp"
+                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
+                android:background="@drawable/roundcorner"
                 android:layout_height="wrap_content"
                 android:src="@drawable/amarilla"
                 android:text="Amarilla"
                 android:backgroundTint="@color/gris"/>
             <ImageButton
                 android:id="@+id/rojaJugador"
+                android:padding="5dp"
+                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/roundcorner"
                 android:text="Roja"
                 android:src="@drawable/roja"
                 android:backgroundTint="@color/gris"/>
             <ImageButton
                 android:id="@+id/golJugador"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/roundcorner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GOL"

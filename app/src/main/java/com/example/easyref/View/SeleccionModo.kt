@@ -24,7 +24,7 @@ class SeleccionModo : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        (activity as AppCompatActivity).supportActionBar?.title = "Modos"
+        (activity as AppCompatActivity).supportActionBar?.title = "MODALIDAD"
         var view = inflater.inflate(R.layout.seleccion_modo_layout, container, false)
         view.findViewById<Button>(R.id.f7).setOnClickListener {
             datosViewModel.setTipoPartido("7")

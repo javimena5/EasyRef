@@ -241,7 +241,7 @@ class ArbitrarPartidoLayout : Fragment() {
             }else if(!primeraParte && !final) {
                 view.findViewById<LinearLayout>(R.id.cronoPrimera).visibility = View.GONE
                 view.findViewById<LinearLayout>(R.id.cronoSegunda).visibility = View.VISIBLE
-
+                view.findViewById<TextView>(R.id.extraTime).visibility = View.INVISIBLE
                 if(!cronometroIniciado){
                     cronometroIniciado = true
                     coroutineParar?.launch {
@@ -309,6 +309,7 @@ class ArbitrarPartidoLayout : Fragment() {
                                         cronometroIniciado = false
                                         pausaReglamentaria = false
                                         final = true
+                                        view.findViewById<TextView>(R.id.extraTime).visibility = View.INVISIBLE
                                         var navHost = NavHostFragment.findNavController(this@ArbitrarPartidoLayout)
                                         datosViewModel.setInfoPartido(infoPartido)
                                         datosViewModel.setInfoSucesos(infoSucesos)
