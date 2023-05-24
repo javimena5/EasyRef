@@ -12,8 +12,8 @@ object RetrofitController {
         val urlMovil="http://localhost:8080/ApiRestEasyRef_Casa/"
         val urlAzure="http://apiref.eastus.cloudapp.azure.com:8080/ApiRestEasyRef/"
         val retrofitBuilder = Retrofit.Builder()
-            //.baseUrl(urlAzure)
-            .baseUrl(urlAndroidStudio)
+            .baseUrl(urlAzure)
+            //.baseUrl(urlAndroidStudio)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         return retrofitBuilder.create(ProveedorBD::class.java)
