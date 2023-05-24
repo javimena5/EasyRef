@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,6 +76,16 @@ class InfoPartidoLayout : Fragment() {
         }
         var view = inflater.inflate(R.layout.info_partido_layout, container, false)
         view.findViewById<TextView>(R.id.infoPartido).text = datosViewModel.getInfoResultado.value!!
+
+        if (!datosViewModel.getEquipoLocal.value!!.escudoEquipo.equals("") || !datosViewModel.getEquipoLocal.value!!.escudoEquipo.isEmpty())
+            Picasso.with(requireContext())
+                .load(datosViewModel.getEquipoLocal.value?.escudoEquipo)
+                .into(view.findViewById<ImageView>(R.id.escudoLocal))
+
+        if (!datosViewModel.getEquipoVisitante.value!!.escudoEquipo.equals("") || !datosViewModel.getEquipoVisitante.value!!.escudoEquipo.isEmpty())
+            Picasso.with(requireContext())
+                .load(datosViewModel.getEquipoVisitante.value?.escudoEquipo)
+                .into(view.findViewById<ImageView>(R.id.escudoVisitante))
         var stringInfo = datosViewModel.getInfoPartido.value
 
         CoroutineScope(Dispatchers.IO).launch {

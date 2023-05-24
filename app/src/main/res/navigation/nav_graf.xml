@@ -175,6 +175,9 @@
             android:id="@+id/action_datosVisorEquipoFragment_to_visorJugadoresFragment"
             app:destination="@id/visorJugadoresFragment"
             app:popUpTo="@id/editorEquiposFragment" />
+        <action
+            android:id="@+id/action_datosVisorEquipoFragment_to_editorEquiposFragment"
+            app:destination="@id/editorEquiposFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoRapidoLayout"

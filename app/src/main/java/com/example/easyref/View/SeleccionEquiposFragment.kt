@@ -40,7 +40,7 @@ class SeleccionEquiposFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             EasyRefController.updateTitulares()
         }
-        (activity as AppCompatActivity).supportActionBar?.title = "Selección de equipos"
+        (activity as AppCompatActivity).supportActionBar?.title = "SELECCIÓN DE EQUIPOS"
         (activity as AppCompatActivity).window.decorView.apply {
             systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         }

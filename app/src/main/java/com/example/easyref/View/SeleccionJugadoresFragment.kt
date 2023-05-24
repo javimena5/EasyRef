@@ -53,7 +53,7 @@ class SeleccionJugadoresFragment : Fragment() {
         activity?.apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        (activity as AppCompatActivity).supportActionBar?.title = "Selección de titulares"
+        (activity as AppCompatActivity).supportActionBar?.title = "SELECCIÓN DE TITULARES"
         (activity as AppCompatActivity).window.decorView.apply {
             systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         }

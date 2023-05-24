@@ -103,8 +103,6 @@ class VisorJugadoresFragment : Fragment() {
 
         adaptador.onClickListener(object : android.view.View.OnClickListener{
             override fun onClick(v: View?) {
-                Toast.makeText(requireContext(), lista.get(recycler.getChildAdapterPosition(v!!)).nombreJugador+" Editar", Toast.LENGTH_SHORT)
-                    .show()
             }
         })
         recycler.adapter = this.adaptador

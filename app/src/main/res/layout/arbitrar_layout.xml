@@ -23,14 +23,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginRight="20dp">
                 <LinearLayout
                     android:id="@+id/cronoPrimera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="50dp"
-                    android:layout_marginRight="20dp"
                     android:textSize="40dp">
                     <TextView
                         android:textColor="@color/fondo_general"
@@ -65,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="50dp"
-                    android:layout_marginRight="20dp"
                     android:textSize="40dp"
                     android:visibility="gone">
                     <TextView
@@ -101,7 +101,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="50dp"
                     android:textStyle="bold"
-                    android:layout_marginRight="20dp"
                     android:text="0 - 0"/>
             </LinearLayout>
 

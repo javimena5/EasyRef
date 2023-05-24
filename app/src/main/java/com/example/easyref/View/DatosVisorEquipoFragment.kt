@@ -56,11 +56,8 @@ class DatosVisorEquipoFragment : Fragment() {
                 EasyRefController.insertEquipo(newEquipo)
             }
             datosViewModel.setEquipoSeleccionado(newEquipo)
-            view.findViewById<EditText>(R.id.NombreEquipo).setText("")
             var navHost = NavHostFragment.findNavController(this@DatosVisorEquipoFragment)
-            navHost.navigate(R.id.action_datosVisorEquipoFragment_to_visorJugadoresFragment)
-            /*var navHost = NavHostFragment.findNavController(this@DatosArbitroFragment)
-            navHost.navigate(R.id.action_datosArbitroFragment_to_seleccionEquiposFragment)*/
+            navHost.navigate(R.id.action_datosVisorEquipoFragment_to_editorEquiposFragment)
         }
         return view
     }

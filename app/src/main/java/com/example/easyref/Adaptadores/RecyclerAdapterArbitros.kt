@@ -70,7 +70,7 @@ class SimpleViewHolderArbitros(itemView: View) :
                 .load(dato.fotoArbitro)
                 .into(foto)
         }else
-            foto.setImageResource(R.drawable.icono_sin)
+            foto.setImageResource(R.drawable.arbitro_avatar)
 
         //foto.setImageResource(R.drawable.arbitro_avatar)
         /*if(dato.fotoArbitro.toString().equals(""))

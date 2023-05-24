@@ -66,16 +66,12 @@ class DatosVisorJugadorFragment : Fragment() {
             newDorsal!!.adapter = adaptador
         }
 
-
-
-
-
-        //newDorsal.setOnItemSelectedListener()
         view.findViewById<Button>(R.id.siguiente).setOnClickListener{
             var newNombre = view.findViewById<EditText>(R.id.nombreJugador)
             var newApellidos = view.findViewById<EditText>(R.id.apellidosJugador)
 
             var newJugador = JugadorEntity(0,newNombre.text.toString(),newApellidos.text.toString(),dorsalAdd,"",equipoActual.idEquipo,0,0)
+
             CoroutineScope(Dispatchers.IO).launch {
                 EasyRefController.insertJugador(newJugador)
             }
