@@ -42,7 +42,7 @@ class ArbitrarPartidoLayout : Fragment() {
     private val datosViewModel : PasarDatosViewModel by activityViewModels()
     var infoPartido:String = ""
     var infoSucesos:String = ""
-    var delay:Long = 5
+    var delay:Long = 1000
     var golesLocal = 0
     var golesVisitante = 0
 

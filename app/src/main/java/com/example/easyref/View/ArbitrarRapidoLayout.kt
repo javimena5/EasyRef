@@ -25,7 +25,7 @@ import kotlinx.coroutines.*
 
 class ArbitrarRapidoLayout : Fragment() {
     private val datosViewModel : PasarDatosViewModel by activityViewModels()
-    var delay:Long = 5
+    var delay:Long = 1000
 
 
     var segundos = 0
